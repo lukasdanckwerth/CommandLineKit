@@ -653,7 +653,7 @@ public class CommandLineInterface {
    // MARK: - Sinleton and convenient static accessors
    
    /// Default instance
-   public static var `default`: CommandLineInterface!
+    public static var `default`: CommandLineInterface! = CommandLineInterface(name: "Default")
    
    /// The name of the command line tool.
    public static var name: String {
