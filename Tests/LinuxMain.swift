@@ -3,5 +3,8 @@ import XCTest
 import CommandLineKitTests
 
 var tests = [XCTestCaseEntry]()
-tests += CommandLineKitTests.allTests()
+tests += TestArguments.allTests()
+tests += TestArgumentsInvalidValues.allTests()
+tests += TestConfiguation.allTests()
+tests += TestOptions.allTests()
 XCTMain(tests)
