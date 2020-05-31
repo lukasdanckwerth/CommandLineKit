@@ -327,7 +327,7 @@ class TestOptions: XCTestCase {
             }
             
             switch error {
-            case .optionValidationFailure(let option, _):
+            case .parseOptionFailure(let option, _):
                 XCTAssert(option == negativeFloatAction)
             default:
                 XCTFail("Error not a CommandLineInterfaceError: \(error)"); return

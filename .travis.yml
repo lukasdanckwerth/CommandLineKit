@@ -1,5 +1,10 @@
-language: objective-c
-xcode_project: CommandLineKit.xcodeproj
-xcode_scheme: CommandLineKit
-script: xcodebuild -scheme CommandLineKit test
-osx_image: xcode10.2
+os:
+  - osx
+language: swift
+osx_image: xcode11
+env:
+  - PROJECT_NAME=CommandLineKit
+install: (cd $PROJECT_NAME && swift package update)
+script:
+  - (cd $PROJECT_NAME && swift build)
+  - (cd $PROJECT_NAME && swift test)
