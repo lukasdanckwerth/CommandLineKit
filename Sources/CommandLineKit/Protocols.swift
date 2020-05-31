@@ -7,7 +7,7 @@
 
 import Foundation
 
-// MARK: - StringInitializable -
+// MARK: - StringInitializable -sdf
 
 /// Protocol that can be implemented by types you want to parse from the command line.
 public protocol StringInitializable {
