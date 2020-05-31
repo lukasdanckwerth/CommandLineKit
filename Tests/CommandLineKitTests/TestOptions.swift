@@ -304,6 +304,9 @@ class TestOptions: XCTestCase {
             XCTFail(CommandLineInterface.string(from: error))
         }
         
+        // Reset
+        negativeFloatAction.value = nil
+        
         do {
             try CommandLineInterface.parse(["TestCLT", "negativeFloatAction", "12.00"]) // Should fail
             XCTFail("Parsing should fail")
