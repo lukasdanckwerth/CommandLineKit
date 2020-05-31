@@ -78,6 +78,7 @@ open class CommandLineInterface {
     open var arguments: [Argument] = []
     /// The underlying array of arguments.
     open var options: [Option] = []
+    
     /// Returns an array containing the short and long flags of the arguments.
     fileprivate var allPossibleArgumentNames: [String] {
         
@@ -147,17 +148,17 @@ open class CommandLineInterface {
     }
     
     /// Parses the arguments from the command line given in `CommandLine.arguments` and dies with an error message.
-    public static func parseOrExit() {
-        CommandLineInterface.default.parseOrExit()
-    }
-    
-    /// Parses the arguments from the command line given in `CommandLine.arguments` and dies with an error message.
     public func parseOrExit() {
         do { try parse() }
         catch let error { CommandLineInterface.exit(
             withError: error,
             printManual: CommandLineInterface.default.configuration.contains(.printHelpOnExit))
         }
+    }
+    
+    /// Parses the arguments from the command line given in `CommandLine.arguments` and dies with an error message.
+    public static func parseOrExit() {
+        CommandLineInterface.default.parseOrExit()
     }
     
     /// Parse the given arguments.
