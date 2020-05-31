@@ -92,7 +92,7 @@ class TestOptions: XCTestCase {
             guard CommandLineInterface.option == option else {
                 XCTFail("Selected option '\(String(describing: CommandLineInterface.option))' not like expected 'option'."); return
             }
-        } catch { XCTFail(CommandLineInterface.string(from: error)) }
+        } catch { XCTFail(error.localizedDescription) }
         
         do {
             try CommandLineInterface.parse(["TestCLT", "stringOption", "value for string option"]) // Should succeed
@@ -102,7 +102,7 @@ class TestOptions: XCTestCase {
             guard stringOption.value == "value for string option" else {
                 XCTFail("Error parsing value 'stringOption'."); return
             }
-        } catch { XCTFail(CommandLineInterface.string(from: error)) }
+        } catch { XCTFail(error.localizedDescription) }
         
         do {
             try CommandLineInterface.parse(["TestCLT", "numberOption", "123456"]) // Should succeed
@@ -112,7 +112,7 @@ class TestOptions: XCTestCase {
             guard numberOption.value == 123456 else {
                 XCTFail("Error parsing value 'numberOption'."); return
             }
-        } catch let error { XCTFail(CommandLineInterface.string(from: error)) }
+        } catch let error { XCTFail(error.localizedDescription) }
         
         do {
             try CommandLineInterface.parse(["TestCLT", "negNumberOption", "-123456"]) // Should succeed
@@ -122,7 +122,7 @@ class TestOptions: XCTestCase {
             guard negNumberOption.value == -123456 else {
                 XCTFail("Error parsing value 'negNumberOption'."); return
             }
-        } catch let error { XCTFail(CommandLineInterface.string(from: error)) }
+        } catch let error { XCTFail(error.localizedDescription) }
         
         do {
             try CommandLineInterface.parse(["TestCLT", "decimalOption", "12.3456"]) // Should succeed
@@ -132,7 +132,7 @@ class TestOptions: XCTestCase {
             guard decimalOption.value == 12.3456 else {
                 XCTFail("Error parsing value 'decimalOption'."); return
             }
-        } catch { XCTFail(CommandLineInterface.string(from: error)) }
+        } catch { XCTFail(error.localizedDescription) }
         
         do {
             try CommandLineInterface.parse(["TestCLT", "negDecimalOption", "-12.3456"]) // Should succeed
@@ -142,7 +142,7 @@ class TestOptions: XCTestCase {
             guard negDecimalOption.value == -12.3456 else {
                 XCTFail("Error parsing value 'negDecimalOption'."); return
             }
-        } catch let error { XCTFail(CommandLineInterface.string(from: error)) }
+        } catch let error { XCTFail(error.localizedDescription) }
         
         do {
             try CommandLineInterface.parse(["TestCLT", "boolOption", "true"]) // Should succeed
@@ -152,7 +152,7 @@ class TestOptions: XCTestCase {
             guard boolOption.value == true else {
                 XCTFail("Error parsing value 'boolOption'."); return
             }
-        } catch let error { XCTFail(CommandLineInterface.string(from: error)) }
+        } catch let error { XCTFail(error.localizedDescription) }
         
         do {
             try CommandLineInterface.parse(["TestCLT", "negBoolOption", "false"]) // Should succeed
@@ -162,7 +162,7 @@ class TestOptions: XCTestCase {
             guard negBoolOption.value == false else {
                 XCTFail("Error parsing value 'negBoolOption'."); return
             }
-        } catch let error { XCTFail(CommandLineInterface.string(from: error)) }
+        } catch let error { XCTFail(error.localizedDescription) }
         
         do {
             try CommandLineInterface.parse(["TestCLT", "enumOption", "suboption1"]) // Should succeed
@@ -172,7 +172,7 @@ class TestOptions: XCTestCase {
             guard enumOption.value == Suboption.suboption1 else {
                 XCTFail("Error parsing value 'enumOption'."); return
             }
-        } catch let error { XCTFail(CommandLineInterface.string(from: error)) }
+        } catch let error { XCTFail(error.localizedDescription) }
         
         do {
             try CommandLineInterface.parse(["TestCLT", "enumOption", "suboption2"]) // Should succeed
@@ -182,7 +182,7 @@ class TestOptions: XCTestCase {
             guard enumOption.value == Suboption.suboption2 else {
                 XCTFail("Error parsing value 'enumOption'."); return
             }
-        } catch let error { XCTFail(CommandLineInterface.string(from: error)) }
+        } catch let error { XCTFail(error.localizedDescription) }
     }
     
     
@@ -197,7 +197,7 @@ class TestOptions: XCTestCase {
             if expectation { XCTFail("""
                 \(CommandLineInterface.default.getStats())
                 
-                \(CommandLineInterface.string(from: error))
+                \(error.localizedDescription)
                 """) }
         }
     }
@@ -280,8 +280,17 @@ class TestOptions: XCTestCase {
         
         class NegativeFloatOption: TypedOption<Float> {
             
-            func validate(value: Float) -> ValidationResult {
-                return value < 0 ? .success : .fail(message: "Value '\(value)' not negative.")
+            override func parse(rawValue: String) -> ValidationResult {
+                guard let float = Float(string: rawValue) else {
+                    return .fail(message: "Can't parse raw value '\(rawValue)' to expected type Float.")
+                }
+                
+                if float < 0 {
+                    self.value = float
+                    return .success
+                } else {
+                    return .fail(message: "Value '\(float)' not negative.")
+                }
             }
         }
         
@@ -301,7 +310,7 @@ class TestOptions: XCTestCase {
             }
             
         } catch let error {
-            XCTFail(CommandLineInterface.string(from: error))
+            XCTFail(error.localizedDescription)
         }
         
         // Reset
@@ -318,7 +327,7 @@ class TestOptions: XCTestCase {
             }
             
             switch error {
-            case .parseOptionFailure(let option, _):
+            case .optionValidationFailure(let option, _):
                 XCTAssert(option == negativeFloatAction)
             default:
                 XCTFail("Error not a CommandLineInterfaceError: \(error)"); return
@@ -362,7 +371,7 @@ class TestOptions: XCTestCase {
                 }
                 
             } catch let error {
-                XCTFail(CommandLineInterface.string(from: error)); return
+                XCTFail(error.localizedDescription); return
             }
         }
         XCTAssert(countSuccessfully == 3)
@@ -381,7 +390,7 @@ class TestOptions: XCTestCase {
                 case .parseOptionFailure(let option, _):
                     XCTAssert(option == enumOption)
                 default:
-                    XCTFail("Error not `.parseOptionFailure(_, _)`"); return
+                    XCTFail("Error not `.parseOptionFailure(_, _)`: \(error)"); return
                 }
             }
         }
@@ -408,7 +417,7 @@ class TestOptions: XCTestCase {
                     try CommandLineInterface.default.parse(["CLH-Test", optionName, "/tmp/de.aid.CommandLineInterface.Tests.File Wich Existence Is Not Required"])
                 }
             } catch let error {
-                XCTFail(CommandLineInterface.string(from: error))
+                XCTFail(error.localizedDescription)
             }
             
             XCTAssert(path == nil || option.value?.path == path, "Failure: Wrong target path. \(String(describing: option.value?.path)), \(String(describing: path))")
@@ -431,7 +440,7 @@ class TestOptions: XCTestCase {
         do {
             try CommandLineInterface.default.parse(["CLH-Test", "file1", path])
         } catch let error {
-            XCTFail(CommandLineInterface.string(from: error))
+            XCTFail(error.localizedDescription)
         }
         
         CommandLineInterface.default.reset()

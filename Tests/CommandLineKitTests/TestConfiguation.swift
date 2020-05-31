@@ -62,7 +62,7 @@ class TestConfiguation: XCTestCase {
                 XCTAssert(intArgument.value == 10)
                 
             } catch let error {
-                XCTFail(CommandLineInterface.string(from: error))
+                XCTFail(error.localizedDescription)
             }
         }
     }

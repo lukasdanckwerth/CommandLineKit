@@ -50,7 +50,7 @@ class TestArguments: XCTestCase {
             try CommandLineInterface.parse(["CLH-Test", "-n1", "2", "-n4", "100", "--animal", "Pig"])
         } catch let error {
             XCTFail("""
-                \(CommandLineInterface.string(from: error))
+                \(error.localizedDescription)
                 \(CommandLineInterface.default.getStats())
                 """)
         }
