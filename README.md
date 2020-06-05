@@ -1,6 +1,8 @@
 # CommandLineKit  [![Build Status](https://travis-ci.com/lukasdanckwerth/CommandLineKit.svg?branch=master)](https://travis-ci.com/lukasdanckwerth/CommandLineKit)
 
-CommandLineKit is a micro framework enabling you to build clean, short and safe command line tools written in Swift.
+![Icon](.documentation/icon.low.png "Icon")
+
+> CommandLineKit is a micro framework enabling you to build clean, short and safe command line tools written in Swift.
 
 - [Requirements](#requirements)
 - [Usage](#usage)
