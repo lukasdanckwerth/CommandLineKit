@@ -14,23 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CommandLineKit"
-               BuildableName = "CommandLineKit"
-               BlueprintName = "CommandLineKit"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CommandLineKitTests"
-               BuildableName = "CommandLineKitTests"
-               BlueprintName = "CommandLineKitTests"
+               BlueprintIdentifier = "CLKit"
+               BuildableName = "CLKit"
+               BlueprintName = "CLKit"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,9 +32,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CommandLineKitTests"
-               BuildableName = "CommandLineKitTests"
-               BlueprintName = "CommandLineKitTests"
+               BlueprintIdentifier = "CLKitTests"
+               BuildableName = "CLKitTests"
+               BlueprintName = "CLKitTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>
@@ -74,9 +60,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "CommandLineKit"
-            BuildableName = "CommandLineKit"
-            BlueprintName = "CommandLineKit"
+            BlueprintIdentifier = "CLKit"
+            BuildableName = "CLKit"
+            BlueprintName = "CLKit"
             ReferencedContainer = "container:">
          </BuildableReference>
       </MacroExpansion>

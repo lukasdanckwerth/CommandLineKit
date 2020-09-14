@@ -3,11 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8059461A250FC93F00B1D94C /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80594619250FC93F00B1D94C /* main.swift */; };
+		803AEB38250FD55F0089C16A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803AEB37250FD55F0089C16A /* main.swift */; };
+		803AEB3B250FD5780089C16A /* CLKit in Frameworks */ = {isa = PBXBuildFile; productRef = 803AEB3A250FD5780089C16A /* CLKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -23,8 +24,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		80594616250FC93F00B1D94C /* Demo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Demo; sourceTree = BUILT_PRODUCTS_DIR; };
-		80594619250FC93F00B1D94C /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		803AEB37250FD55F0089C16A /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		80594616250FC93F00B1D94C /* CLKit Demo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "CLKit Demo"; sourceTree = BUILT_PRODUCTS_DIR; };
 		80594620250FC95F00B1D94C /* CommandLineKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = CommandLineKit; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -33,43 +34,52 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				803AEB3B250FD5780089C16A /* CLKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		803AEB36250FD55F0089C16A /* CLKit Demo */ = {
+			isa = PBXGroup;
+			children = (
+				803AEB37250FD55F0089C16A /* main.swift */,
+			);
+			path = "CLKit Demo";
+			sourceTree = "<group>";
+		};
+		803AEB39250FD5780089C16A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		8059460D250FC93F00B1D94C = {
 			isa = PBXGroup;
 			children = (
 				80594620250FC95F00B1D94C /* CommandLineKit */,
-				80594618250FC93F00B1D94C /* Demo */,
+				803AEB36250FD55F0089C16A /* CLKit Demo */,
 				80594617250FC93F00B1D94C /* Products */,
+				803AEB39250FD5780089C16A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
 		80594617250FC93F00B1D94C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				80594616250FC93F00B1D94C /* Demo */,
+				80594616250FC93F00B1D94C /* CLKit Demo */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		80594618250FC93F00B1D94C /* Demo */ = {
-			isa = PBXGroup;
-			children = (
-				80594619250FC93F00B1D94C /* main.swift */,
-			);
-			path = Demo;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		80594615250FC93F00B1D94C /* Demo */ = {
+		80594615250FC93F00B1D94C /* CLKit Demo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8059461D250FC93F00B1D94C /* Build configuration list for PBXNativeTarget "Demo" */;
+			buildConfigurationList = 8059461D250FC93F00B1D94C /* Build configuration list for PBXNativeTarget "CLKit Demo" */;
 			buildPhases = (
 				80594612250FC93F00B1D94C /* Sources */,
 				80594613250FC93F00B1D94C /* Frameworks */,
@@ -79,9 +89,12 @@
 			);
 			dependencies = (
 			);
-			name = Demo;
+			name = "CLKit Demo";
+			packageProductDependencies = (
+				803AEB3A250FD5780089C16A /* CLKit */,
+			);
 			productName = "CommandLineKit Demo";
-			productReference = 80594616250FC93F00B1D94C /* Demo */;
+			productReference = 80594616250FC93F00B1D94C /* CLKit Demo */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -99,7 +112,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 80594611250FC93F00B1D94C /* Build configuration list for PBXProject "Demo" */;
+			buildConfigurationList = 80594611250FC93F00B1D94C /* Build configuration list for PBXProject "CLKit Demo" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -112,7 +125,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				80594615250FC93F00B1D94C /* Demo */,
+				80594615250FC93F00B1D94C /* CLKit Demo */,
 			);
 		};
 /* End PBXProject section */
@@ -122,7 +135,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8059461A250FC93F00B1D94C /* main.swift in Sources */,
+				803AEB38250FD55F0089C16A /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -245,6 +258,7 @@
 		8059461E250FC93F00B1D94C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -254,6 +268,7 @@
 		8059461F250FC93F00B1D94C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -263,7 +278,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		80594611250FC93F00B1D94C /* Build configuration list for PBXProject "Demo" */ = {
+		80594611250FC93F00B1D94C /* Build configuration list for PBXProject "CLKit Demo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8059461B250FC93F00B1D94C /* Debug */,
@@ -272,7 +287,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8059461D250FC93F00B1D94C /* Build configuration list for PBXNativeTarget "Demo" */ = {
+		8059461D250FC93F00B1D94C /* Build configuration list for PBXNativeTarget "CLKit Demo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8059461E250FC93F00B1D94C /* Debug */,
@@ -282,6 +297,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		803AEB3A250FD5780089C16A /* CLKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CLKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8059460E250FC93F00B1D94C /* Project object */;
 }

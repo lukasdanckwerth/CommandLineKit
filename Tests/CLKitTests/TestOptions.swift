@@ -1,15 +1,15 @@
 //
 //  TestOptions.swift
-//  CommandLineInterfaceTests
+//  CLInterfaceTests
 //
 //  Created by Lukas Danckwerth on 17.03.18.
 //  Copyright © 2018 Lukas Danckwerth. All rights reserved.
 //
 
 import XCTest
-@testable import CommandLineKit
+@testable import CLKit
 
-extension Float: StringInitializable {
+extension Float: CLStringInitializable {
     
     // satisfy `StringInitializable`
     public init?(string: String) {
@@ -22,8 +22,8 @@ class TestOptions: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        // Reset the `CommandLineInterface`
-        CommandLineInterface.default.reset()
+        // Reset the `CLInterface`
+        CLInterface.default.reset()
     }
     
     
@@ -51,9 +51,9 @@ class TestOptions: XCTestCase {
     
     func testSuccessfullParsing() {
         
-        CommandLineInterface.default.reset()
+        CLInterface.default.reset()
         
-        let option = Option(name: "option")
+        let option = CLConcreteOption(name: "option")
         let stringOption = StringOption(name: "stringOption")
         let numberOption = NumberOption(name: "numberOption")
         let negNumberOption = NumberOption(name: "negNumberOption")
@@ -61,19 +61,19 @@ class TestOptions: XCTestCase {
         let negDecimalOption = DecimalOption(name: "negDecimalOption")
         let boolOption = BoolOption(name: "boolOption")
         let negBoolOption = BoolOption(name: "negBoolOption")
-        let enumOption = EnumOption<Suboption>(name: "enumOption")
+        let enumOption = CLEnumOption<Suboption>(name: "enumOption")
         
-        CommandLineInterface.name = "TestCLT"
+        CLInterface.name = "TestCLT"
         
-        class FloatArgument: TypedArgument<Float> { }
+        class FloatArgument: CLTypeArgument<Float> { }
         
         _ = FloatArgument(shortFlag: "f", longFlag: "float", help: "Takes a float value.")
         
-        guard CommandLineInterface.option != nil else {
+        guard CLInterface.option != nil else {
             return
         }
         
-        switch CommandLineInterface.option! {
+        switch CLInterface.option! {
         case option:
             print("Selected option in \(option)")
         case stringOption:
@@ -87,17 +87,17 @@ class TestOptions: XCTestCase {
         }
         
         do {
-            try CommandLineInterface.parse(["TestCLT", "option"]) // Should succeed
+            try CLInterface.parse(["TestCLT", "option"]) // Should succeed
             
-            guard CommandLineInterface.option == option else {
-                XCTFail("Selected option '\(String(describing: CommandLineInterface.option))' not like expected 'option'."); return
+            guard CLInterface.option == option else {
+                XCTFail("Selected option '\(String(describing: CLInterface.option))' not like expected 'option'."); return
             }
         } catch { XCTFail(error.localizedDescription) }
         
         do {
-            try CommandLineInterface.parse(["TestCLT", "stringOption", "value for string option"]) // Should succeed
-            guard CommandLineInterface.option == stringOption else {
-                XCTFail("Selected option '\(String(describing: CommandLineInterface.option))' not like expected 'stringOption'."); return
+            try CLInterface.parse(["TestCLT", "stringOption", "value for string option"]) // Should succeed
+            guard CLInterface.option == stringOption else {
+                XCTFail("Selected option '\(String(describing: CLInterface.option))' not like expected 'stringOption'."); return
             }
             guard stringOption.value == "value for string option" else {
                 XCTFail("Error parsing value 'stringOption'."); return
@@ -105,9 +105,9 @@ class TestOptions: XCTestCase {
         } catch { XCTFail(error.localizedDescription) }
         
         do {
-            try CommandLineInterface.parse(["TestCLT", "numberOption", "123456"]) // Should succeed
-            guard CommandLineInterface.option == numberOption else {
-                XCTFail("Selected option '\(String(describing: CommandLineInterface.option))' not like expected 'numberOption'."); return
+            try CLInterface.parse(["TestCLT", "numberOption", "123456"]) // Should succeed
+            guard CLInterface.option == numberOption else {
+                XCTFail("Selected option '\(String(describing: CLInterface.option))' not like expected 'numberOption'."); return
             }
             guard numberOption.value == 123456 else {
                 XCTFail("Error parsing value 'numberOption'."); return
@@ -115,9 +115,9 @@ class TestOptions: XCTestCase {
         } catch let error { XCTFail(error.localizedDescription) }
         
         do {
-            try CommandLineInterface.parse(["TestCLT", "negNumberOption", "-123456"]) // Should succeed
-            guard CommandLineInterface.option == negNumberOption else {
-                XCTFail("Selected option '\(String(describing: CommandLineInterface.option))' not like expected 'negNumberOption'."); return
+            try CLInterface.parse(["TestCLT", "negNumberOption", "-123456"]) // Should succeed
+            guard CLInterface.option == negNumberOption else {
+                XCTFail("Selected option '\(String(describing: CLInterface.option))' not like expected 'negNumberOption'."); return
             }
             guard negNumberOption.value == -123456 else {
                 XCTFail("Error parsing value 'negNumberOption'."); return
@@ -125,9 +125,9 @@ class TestOptions: XCTestCase {
         } catch let error { XCTFail(error.localizedDescription) }
         
         do {
-            try CommandLineInterface.parse(["TestCLT", "decimalOption", "12.3456"]) // Should succeed
-            guard CommandLineInterface.option == decimalOption else {
-                XCTFail("Selected option '\(String(describing: CommandLineInterface.option))' not like expected 'decimalOption'."); return
+            try CLInterface.parse(["TestCLT", "decimalOption", "12.3456"]) // Should succeed
+            guard CLInterface.option == decimalOption else {
+                XCTFail("Selected option '\(String(describing: CLInterface.option))' not like expected 'decimalOption'."); return
             }
             guard decimalOption.value == 12.3456 else {
                 XCTFail("Error parsing value 'decimalOption'."); return
@@ -135,9 +135,9 @@ class TestOptions: XCTestCase {
         } catch { XCTFail(error.localizedDescription) }
         
         do {
-            try CommandLineInterface.parse(["TestCLT", "negDecimalOption", "-12.3456"]) // Should succeed
-            guard CommandLineInterface.option == negDecimalOption else {
-                XCTFail("Selected option '\(String(describing: CommandLineInterface.option))' not like expected 'negDecimalOption'."); return
+            try CLInterface.parse(["TestCLT", "negDecimalOption", "-12.3456"]) // Should succeed
+            guard CLInterface.option == negDecimalOption else {
+                XCTFail("Selected option '\(String(describing: CLInterface.option))' not like expected 'negDecimalOption'."); return
             }
             guard negDecimalOption.value == -12.3456 else {
                 XCTFail("Error parsing value 'negDecimalOption'."); return
@@ -145,9 +145,9 @@ class TestOptions: XCTestCase {
         } catch let error { XCTFail(error.localizedDescription) }
         
         do {
-            try CommandLineInterface.parse(["TestCLT", "boolOption", "true"]) // Should succeed
-            guard CommandLineInterface.option == boolOption else {
-                XCTFail("Selected option '\(String(describing: CommandLineInterface.option))' not like expected 'boolOption'."); return
+            try CLInterface.parse(["TestCLT", "boolOption", "true"]) // Should succeed
+            guard CLInterface.option == boolOption else {
+                XCTFail("Selected option '\(String(describing: CLInterface.option))' not like expected 'boolOption'."); return
             }
             guard boolOption.value == true else {
                 XCTFail("Error parsing value 'boolOption'."); return
@@ -155,9 +155,9 @@ class TestOptions: XCTestCase {
         } catch let error { XCTFail(error.localizedDescription) }
         
         do {
-            try CommandLineInterface.parse(["TestCLT", "negBoolOption", "false"]) // Should succeed
-            guard CommandLineInterface.option == negBoolOption else {
-                XCTFail("Selected option '\(String(describing: CommandLineInterface.option))' not like expected 'negBoolOption'."); return
+            try CLInterface.parse(["TestCLT", "negBoolOption", "false"]) // Should succeed
+            guard CLInterface.option == negBoolOption else {
+                XCTFail("Selected option '\(String(describing: CLInterface.option))' not like expected 'negBoolOption'."); return
             }
             guard negBoolOption.value == false else {
                 XCTFail("Error parsing value 'negBoolOption'."); return
@@ -165,9 +165,9 @@ class TestOptions: XCTestCase {
         } catch let error { XCTFail(error.localizedDescription) }
         
         do {
-            try CommandLineInterface.parse(["TestCLT", "enumOption", "suboption1"]) // Should succeed
-            guard CommandLineInterface.option == enumOption else {
-                XCTFail("Selected option '\(String(describing: CommandLineInterface.option))' not like expected 'enumOption'."); return
+            try CLInterface.parse(["TestCLT", "enumOption", "suboption1"]) // Should succeed
+            guard CLInterface.option == enumOption else {
+                XCTFail("Selected option '\(String(describing: CLInterface.option))' not like expected 'enumOption'."); return
             }
             guard enumOption.value == Suboption.suboption1 else {
                 XCTFail("Error parsing value 'enumOption'."); return
@@ -175,9 +175,9 @@ class TestOptions: XCTestCase {
         } catch let error { XCTFail(error.localizedDescription) }
         
         do {
-            try CommandLineInterface.parse(["TestCLT", "enumOption", "suboption2"]) // Should succeed
-            guard CommandLineInterface.option == enumOption else {
-                XCTFail("Selected option '\(String(describing: CommandLineInterface.option))' not like expected 'enumOption'."); return
+            try CLInterface.parse(["TestCLT", "enumOption", "suboption2"]) // Should succeed
+            guard CLInterface.option == enumOption else {
+                XCTFail("Selected option '\(String(describing: CLInterface.option))' not like expected 'enumOption'."); return
             }
             guard enumOption.value == Suboption.suboption2 else {
                 XCTFail("Error parsing value 'enumOption'."); return
@@ -191,11 +191,11 @@ class TestOptions: XCTestCase {
     func tryParse(_ args: [String], expectationToSucceed expectation: Bool) {
         
         do {
-            try CommandLineInterface.parse(args)
+            try CLInterface.parse(args)
             if !expectation { XCTFail("Parsing should have failed. \(args)") }
         } catch let error {
             if expectation { XCTFail("""
-                \(CommandLineInterface.default.getStats())
+                \(CLInterface.default.getStats())
                 
                 \(error.localizedDescription)
                 """) }
@@ -204,11 +204,11 @@ class TestOptions: XCTestCase {
     
     func testCustomOptionValidation() {
         
-        CommandLineInterface.default.reset()
+        CLInterface.default.reset()
         
         let createIntOption = {
             
-            CommandLineInterface.default.reset()
+            CLInterface.default.reset()
             
             let unpermittedValues = [1, 2, 3, 4, 5, 6]
             let intOption = NumberOption(name: "intOption", helpMessage: "Takes all int values except of [1, 2, 3, 4, 5, 6].")
@@ -223,7 +223,7 @@ class TestOptions: XCTestCase {
             }
         }
         
-        CommandLineInterface.name = "CLH-Test"
+        CLInterface.name = "CLH-Test"
         
         createIntOption()
         tryParse(["CLH-Test", "intOption", "-1"], expectationToSucceed: true)
@@ -275,12 +275,12 @@ class TestOptions: XCTestCase {
     
     func testFloatOption() {
         
-        // Reset the `CommandLineInterface`
-        CommandLineInterface.default = CommandLineInterface(name: "TestCLT")
+        // Reset the `CLInterface`
+        CLInterface.default = CLInterface(name: "TestCLT")
         
-        class NegativeFloatOption: TypedOption<Float> {
+        class NegativeFloatOption: CLTypeOption<Float> {
             
-            override func parse(rawValue: String) -> ValidationResult {
+            override func parse(rawValue: String) -> CLValidationResult {
                 guard let float = Float(string: rawValue) else {
                     return .fail(message: "Can't parse raw value '\(rawValue)' to expected type Float.")
                 }
@@ -298,11 +298,11 @@ class TestOptions: XCTestCase {
         
         do {
             
-            print(CommandLineInterface.default.getStats())
-            try CommandLineInterface.parse(["TestCLT", "negativeFloatAction", "-12.00"]) // Should succeed
+            print(CLInterface.default.getStats())
+            try CLInterface.parse(["TestCLT", "negativeFloatAction", "-12.00"]) // Should succeed
             
-            guard CommandLineInterface.option == negativeFloatAction else {
-                XCTFail("Selected option '\(String(describing: CommandLineInterface.option))' not like expected 'negativeFloatAction'."); return
+            guard CLInterface.option == negativeFloatAction else {
+                XCTFail("Selected option '\(String(describing: CLInterface.option))' not like expected 'negativeFloatAction'."); return
             }
             
             guard negativeFloatAction.value == -12.00 else {
@@ -317,20 +317,20 @@ class TestOptions: XCTestCase {
         negativeFloatAction.value = nil
         
         do {
-            try CommandLineInterface.parse(["TestCLT", "negativeFloatAction", "12.00"]) // Should fail
+            try CLInterface.parse(["TestCLT", "negativeFloatAction", "12.00"]) // Should fail
             XCTFail("Parsing should fail")
             
         } catch let error {
             
-            guard let error = error as? CommandLineInterface.CommandLineInterfaceError else {
-                XCTFail("Error no a CommandLineInterfaceError"); return
+            guard let error = error as? CLInterface.CLInterfaceError else {
+                XCTFail("Error no a CLInterfaceError"); return
             }
             
             switch error {
             case .parseOptionFailure(let option, _):
                 XCTAssert(option == negativeFloatAction)
             default:
-                XCTFail("Error not a CommandLineInterfaceError: \(error)"); return
+                XCTFail("Error not a CLInterfaceError: \(error)"); return
             }
         }
     }
@@ -344,16 +344,16 @@ class TestOptions: XCTestCase {
             case value3 = "value3"
         }
         
-        // Reset the `CommandLineInterface`
-        CommandLineInterface.default = CommandLineInterface(name: "CLH-Test")
+        // Reset the `CLInterface`
+        CLInterface.default = CLInterface(name: "CLH-Test")
         
-        let enumOption = EnumOption<Suboption>(name: "suboption", helpMessage: "Choose a suboption.")
+        let enumOption = CLEnumOption<Suboption>(name: "suboption", helpMessage: "Choose a suboption.")
         
         var countSuccessfully = 0
         for value in ["value1", "value2", "value3"] {
             enumOption.value = nil
             do {
-                try CommandLineInterface.parse(["CLH-Test", "suboption", value]) // Should pass!
+                try CLInterface.parse(["CLH-Test", "suboption", value]) // Should pass!
                 
                 switch enumOption.value! {
                 case .value1:
@@ -379,11 +379,11 @@ class TestOptions: XCTestCase {
         for value in ["value", "value123", "value0"] {
             enumOption.value = nil
             do {
-                try CommandLineInterface.parse(["CLH-Test", "suboption", value]) // Should fail!
+                try CLInterface.parse(["CLH-Test", "suboption", value]) // Should fail!
                 XCTFail("Parsing should fail")
             } catch let error {
-                guard let error = error as? CommandLineInterface.CommandLineInterfaceError else {
-                    XCTFail("Error not a CommandLineInterfaceError"); return
+                guard let error = error as? CLInterface.CLInterfaceError else {
+                    XCTFail("Error not a CLInterfaceError"); return
                 }
                 
                 switch error {
@@ -400,21 +400,21 @@ class TestOptions: XCTestCase {
         
         func test(optionName: String, path: String?, fileExistenceRequired: Bool) {
             
-            // Reset the `CommandLineInterface`
-            CommandLineInterface.default = CommandLineInterface(name: "CLH-Test")
+            // Reset the `CLInterface`
+            CLInterface.default = CLInterface(name: "CLH-Test")
             
             if let path = path {
                 FileManager.default.createFile(atPath: path, contents: nil, attributes: nil)
             }
             
-            let option = FileOption(name: optionName, fileExistenceRequired: fileExistenceRequired)
+            let option = CLFileOption(name: optionName, fileExistenceRequired: fileExistenceRequired)
             
             do {
                 if let path = path {
                     FileManager.default.createFile(atPath: path, contents: nil, attributes: nil)
-                    try CommandLineInterface.default.parse(["CLH-Test", optionName, path])
+                    try CLInterface.default.parse(["CLH-Test", optionName, path])
                 } else {
-                    try CommandLineInterface.default.parse(["CLH-Test", optionName, "/tmp/de.aid.CommandLineInterface.Tests.File Wich Existence Is Not Required"])
+                    try CLInterface.default.parse(["CLH-Test", optionName, "/tmp/de.aid.CLInterface.Tests.File Wich Existence Is Not Required"])
                 }
             } catch let error {
                 XCTFail(error.localizedDescription)
@@ -423,36 +423,36 @@ class TestOptions: XCTestCase {
             XCTAssert(path == nil || option.value?.path == path, "Failure: Wrong target path. \(String(describing: option.value?.path)), \(String(describing: path))")
         }
         
-        test(optionName: "file1", path: "/tmp/de.aid.CommandLineInterface.Tests.TestFile1", fileExistenceRequired: true)
-        test(optionName: "file2", path: "/tmp/de.aid.CommandLineInterface.Tests.TestFile2", fileExistenceRequired: true)
-        test(optionName: "fileWithSpace1", path: "/tmp/de.aid.CommandLineInterface.Tests.Test File With Space 1", fileExistenceRequired: true)
+        test(optionName: "file1", path: "/tmp/de.aid.CLInterface.Tests.TestFile1", fileExistenceRequired: true)
+        test(optionName: "file2", path: "/tmp/de.aid.CLInterface.Tests.TestFile2", fileExistenceRequired: true)
+        test(optionName: "fileWithSpace1", path: "/tmp/de.aid.CLInterface.Tests.Test File With Space 1", fileExistenceRequired: true)
         test(optionName: "nonExistingFile1", path: nil, fileExistenceRequired: false)
     }
     
     func testFileOptions() {
         
-        var existingFileOption = FileOption(name: "file1", fileExistenceRequired: true)
+        var existingFileOption = CLFileOption(name: "file1", fileExistenceRequired: true)
         
         // Create file1...
-        let path = "/tmp/de.aid.CommandLineInterfaceTestFile"
+        let path = "/tmp/de.aid.CLInterfaceTestFile"
         FileManager.default.createFile(atPath: path, contents: nil, attributes: nil)
         
         do {
-            try CommandLineInterface.default.parse(["CLH-Test", "file1", path])
+            try CLInterface.default.parse(["CLH-Test", "file1", path])
         } catch let error {
             XCTFail(error.localizedDescription)
         }
         
-        CommandLineInterface.default.reset()
-        existingFileOption = FileOption(name: "file1", fileExistenceRequired: true)
+        CLInterface.default.reset()
+        existingFileOption = CLFileOption(name: "file1", fileExistenceRequired: true)
         
         do {
-            try CommandLineInterface.default.parse(["CLH-Test", "file1", "/tmp/invalidFilePath-jklasdAKLER2"])
+            try CLInterface.default.parse(["CLH-Test", "file1", "/tmp/invalidFilePath-jklasdAKLER2"])
             XCTFail("Parsing should fail!")
         } catch let error {
             
-            guard let error = error as? CommandLineInterface.CommandLineInterfaceError else {
-                XCTFail("Error no a CommandLineInterfaceError"); return
+            guard let error = error as? CLInterface.CLInterfaceError else {
+                XCTFail("Error no a CLInterfaceError"); return
             }
             
             switch error {

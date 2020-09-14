@@ -1,14 +1,14 @@
 //
-//  CommandLineInterface + Extension.swift
+//  CLInterface + Extension.swift
 //  
 //
 //  Created by Lukas Danckwerth on 31.05.20.
 //
 
 import Foundation
-import CommandLineKit
+import CLKit
 
-extension CommandLineInterface {
+extension CLInterface {
     
     func reset() {
         

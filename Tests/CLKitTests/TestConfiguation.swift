@@ -1,13 +1,13 @@
 //
 //  TestConfiguation.swift
-//  CommandLineInterfaceTests
+//  CLInterfaceTests
 //
 //  Created by Lukas Danckwerth on 31.03.18.
 //  Copyright © 2018 Lukas Danckwerth. All rights reserved.
 //
 
 import XCTest
-@testable import CommandLineKit
+@testable import CLKit
 
 class TestConfiguation: XCTestCase {
     
@@ -25,19 +25,19 @@ class TestConfiguation: XCTestCase {
         
         for argument in ["-b", "-abcde"] {
             
-            CommandLineInterface.default.reset()
-            CommandLineInterface.default.name = "CMT-Test"
+            CLInterface.default.reset()
+            CLInterface.default.name = "CMT-Test"
             
-            let argument1 = Argument(shortFlag: "a", longFlag: "argumentA")
-            let argument2 = Argument(shortFlag: "b", longFlag: "argumentB")
-            let argument3 = Argument(shortFlag: "c", longFlag: "argumentC")
-            let argument4 = Argument(shortFlag: "d", longFlag: "argumentD")
-            let argument5 = Argument(shortFlag: "e", longFlag: "argumentE")
+            let argument1 = CLConcreteArgument(shortFlag: "a", longFlag: "argumentA")
+            let argument2 = CLConcreteArgument(shortFlag: "b", longFlag: "argumentB")
+            let argument3 = CLConcreteArgument(shortFlag: "c", longFlag: "argumentC")
+            let argument4 = CLConcreteArgument(shortFlag: "d", longFlag: "argumentD")
+            let argument5 = CLConcreteArgument(shortFlag: "e", longFlag: "argumentE")
             
             let intArgument = NumberArgument(shortFlag: "n", longFlag: "number")
             
             do {
-                try CommandLineInterface.default.parse(["CMT-Test", argument, "-n", "10"])
+                try CLInterface.default.parse(["CMT-Test", argument, "-n", "10"])
                 
                 if argument.contains("a") {
                     XCTAssert(argument1.isSelected)

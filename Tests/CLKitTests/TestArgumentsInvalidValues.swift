@@ -7,15 +7,15 @@
 //
 
 import XCTest
-@testable import CommandLineKit
+@testable import CLKit
 
 class TestArgumentsInvalidValues: XCTestCase {
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
         
-        // Reset the `CommandLineInterface`
-        CommandLineInterface.default.reset()
+        // Reset the `CLInterface`
+        CLInterface.default.reset()
     }
 
     override func tearDown() {
@@ -32,7 +32,7 @@ class TestArgumentsInvalidValues: XCTestCase {
                      ["CLH-Test", "--string", "-n", "12"]
             ] {
                 
-                CommandLineInterface.default.reset()
+                CLInterface.default.reset()
                 let _ = NumberArgument(shortFlag: "n", longFlag: "number", help: "")
                 let stringArgument = StringArgument(shortFlag: "s", longFlag: "string", help: "")
                 wrapTryCatchForNoValueParsedError(args: args, argumentWithMissingValue: stringArgument)
@@ -43,7 +43,7 @@ class TestArgumentsInvalidValues: XCTestCase {
                      ["CLH-Test", "--number"]
             ] {
                 
-                CommandLineInterface.default.reset()
+                CLInterface.default.reset()
                 let numberArgument = NumberArgument(shortFlag: "n", longFlag: "number", help: "")
                 wrapTryCatchForNoValueParsedError(args: args, argumentWithMissingValue: numberArgument)
                 
@@ -53,7 +53,7 @@ class TestArgumentsInvalidValues: XCTestCase {
                      ["CLH-Test", "--decimal"]
             ] {
                 
-                CommandLineInterface.default.reset()
+                CLInterface.default.reset()
                 let decimalArgument = StringArgument(shortFlag: "d", longFlag: "decimal")
                 wrapTryCatchForNoValueParsedError(args: args, argumentWithMissingValue: decimalArgument)
                 
@@ -61,28 +61,28 @@ class TestArgumentsInvalidValues: XCTestCase {
         
     }
     
-    func wrapTryCatchForNoValueParsedError<Type>(args: [String], argumentWithMissingValue: TypedArgument<Type>) {
+    func wrapTryCatchForNoValueParsedError<Type>(args: [String], argumentWithMissingValue: CLTypeArgument<Type>) {
         do {
-            try CommandLineInterface.parse(args) // Should fail!
+            try CLInterface.parse(args) // Should fail!
             XCTFail("""
                 Parsing should fail
                 
-                \(CommandLineInterface.default.getStats())
+                \(CLInterface.default.getStats())
                 """)
         } catch let error {
             
-            guard let error = error as? CommandLineInterface.CommandLineInterfaceError else {
-                XCTFail("Error not a CommandLineInterfaceError"); return
+            guard let error = error as? CLInterface.CLInterfaceError else {
+                XCTFail("Error not a CLInterfaceError"); return
             }
             
             switch error {
-            case CommandLineInterface.CommandLineInterfaceError.missingRequiredArgumentValue(let argument):
+            case CLInterface.CLInterfaceError.missingRequiredArgumentValue(let argument):
                 XCTAssert(argument == argumentWithMissingValue)
             default:
                 XCTFail("""
                     Error not `.noValueParsed(_)`. Is: \(error)
                     
-                    \(CommandLineInterface.default.getStats())
+                    \(CLInterface.default.getStats())
                     """); return
             }
         }
@@ -92,7 +92,7 @@ class TestArgumentsInvalidValues: XCTestCase {
         
         for invalidArgument in ["NoNumericString", "10.0", "-10.0", "true", "false", ""] {
             
-            CommandLineInterface.default.reset()
+            CLInterface.default.reset()
             let numberArgument = NumberArgument(shortFlag: "n", longFlag: "number", help: "")
             
             wrapTryCatchForNoValidValueError(args: ["CLH-Test", "--number", invalidArgument], argumentWithInvalidValue: numberArgument)
@@ -100,27 +100,27 @@ class TestArgumentsInvalidValues: XCTestCase {
         
         for invalidArgument in ["NoNumericString", "true", "false", ""] {
             
-            CommandLineInterface.default.reset()
+            CLInterface.default.reset()
             let decimalArgument = DecimalArgument(shortFlag: "d", longFlag: "decimal")
             
             wrapTryCatchForNoValidValueError(args: ["CLH-Test", "--decimal", invalidArgument], argumentWithInvalidValue: decimalArgument)
         }
     }
     
-    func wrapTryCatchForNoValidValueError<Type>(args: [String], argumentWithInvalidValue: TypedArgument<Type>) {
+    func wrapTryCatchForNoValidValueError<Type>(args: [String], argumentWithInvalidValue: CLTypeArgument<Type>) {
         do {
-            try CommandLineInterface.parse(args) // Should fail!
+            try CLInterface.parse(args) // Should fail!
             XCTFail("Parsing value \(String(describing: argumentWithInvalidValue.value)) for \(argumentWithInvalidValue) should fail")
         } catch let error {
             
-            guard let error = error as? CommandLineInterface.CommandLineInterfaceError else {
-                XCTFail("Error not a CommandLineInterfaceError"); return
+            guard let error = error as? CLInterface.CLInterfaceError else {
+                XCTFail("Error not a CLInterfaceError"); return
             }
             
             switch error {
-            case CommandLineInterface.CommandLineInterfaceError.missingRequiredArgumentValue(let argument):
+            case CLInterface.CLInterfaceError.missingRequiredArgumentValue(let argument):
                 XCTAssert(argument == argumentWithInvalidValue)
-            case CommandLineInterface.CommandLineInterfaceError.parseArgumentFailure(let argument, let message):
+            case CLInterface.CLInterfaceError.parseArgumentFailure(let argument, let message):
                 print(message)
                 XCTAssert(argument == argumentWithInvalidValue)
             default:

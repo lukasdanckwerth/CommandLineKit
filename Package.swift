@@ -2,18 +2,18 @@
 import PackageDescription
 
 let package = Package(
-    name: "CommandLineKit",
+    name: "CLKit",
     products: [
         .library(
-            name: "CommandLineKit",
-            targets: ["CommandLineKit"]),
+            name: "CLKit",
+            targets: ["CLKit"]),
     ],
     targets: [
         .target(
-            name: "CommandLineKit",
+            name: "CLKit",
             dependencies: []),
         .testTarget(
-            name: "CommandLineKitTests",
-            dependencies: ["CommandLineKit"]),
+            name: "CLKitTests",
+            dependencies: ["CLKit"]),
     ]
 )

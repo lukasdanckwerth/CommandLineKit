@@ -7,15 +7,15 @@
 //
 
 import XCTest
-@testable import CommandLineKit
+@testable import CLKit
 
 
 class TestArguments: XCTestCase {
 
     override func setUp() {
         
-        // Reset the `CommandLineInterface`
-        CommandLineInterface.default.reset()
+        // reset the `CLInterface`
+        CLInterface.default.reset()
     }
 
     override func tearDown() {
@@ -33,11 +33,10 @@ class TestArguments: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
-
     
     func testDefaultValues() {
         
-        CommandLineInterface.default.reset()
+        CLInterface.default.reset()
         
         let numberArgumentDefault0 = NumberArgument(shortFlag: "n1", longFlag: "number1", defaultValue: 0)
         let numberArgumentDefault1 = NumberArgument(shortFlag: "n2", longFlag: "number2", defaultValue: 1)
@@ -47,11 +46,11 @@ class TestArguments: XCTestCase {
         let stringArgumentDefaultCow = StringArgument(longFlag: "animal", defaultValue: "Cow")
         
         do {
-            try CommandLineInterface.parse(["CLH-Test", "-n1", "2", "-n4", "100", "--animal", "Pig"])
+            try CLInterface.parse(["CLH-Test", "-n1", "2", "-n4", "100", "--animal", "Pig"])
         } catch let error {
             XCTFail("""
                 \(error.localizedDescription)
-                \(CommandLineInterface.default.getStats())
+                \(CLInterface.default.getStats())
                 """)
         }
         
