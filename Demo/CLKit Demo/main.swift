@@ -20,5 +20,5 @@ let helloOption = StringOption(name: "hello", helpMessage: "prints a welcome mes
 let helloOption2 = StringOption(name: "hello", helpMessage: "prints a welcome message")
 demoTool.options = [helloOption, helloOption2]
 
-demoTool.printManual()
+demoTool.printHelp()
 demoTool.parseOrExit()

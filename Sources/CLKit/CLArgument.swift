@@ -28,4 +28,5 @@ public protocol CLArgument: Equatable, CustomStringConvertible {
     /// - parameter help:        Some help message describing the option.
     /// - parameter required:    A Boolean value indicating whether this argument is required.
     init(shortFlag: String?, longFlag: String, help: String?, required: Bool)
+    
 }

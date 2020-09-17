@@ -9,6 +9,12 @@ import Foundation
 
 open class CLConcreteArgument: CLArgument, CLCustomValidateable {
     
+    /// The prefix used for short flags of `Argument`s.
+    public static var prefixShortFlag = "-"
+    
+    /// The prefix used for long flags of `Argument`s.
+    public static var prefixLongFlag = "--"
+    
     public var description: String {
         return "Argument[\(longFlag), \(shortFlag ?? ""), isRequired: \(isRequired)]"
     }

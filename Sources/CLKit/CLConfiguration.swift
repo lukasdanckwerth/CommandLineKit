@@ -21,10 +21,13 @@ extension CLInterface {
         
         /// Indicates whether to always print the help message after error messages
         public static let printHelpOnExit = CLConfiguration(rawValue: 1)
+        
         /// Indicates whether a valid option is needed to be specifyed to execute.rawValue
         public static let failOnMissingOption = CLConfiguration(rawValue: 1 << 1)
+        
         /// Prints the help page in case no `Option` has been specified
         public static let printHelpForNoSelection = CLConfiguration(rawValue: 1 << 3)
+        
         /// Allow unknown raw arguments
         public static let allowUnknownArguments = CLConfiguration(rawValue: 1 << 4)
     }
