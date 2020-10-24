@@ -7,7 +7,8 @@
 //
 
 import XCTest
-@testable import CLKit
+@testable
+import CLKit
 
 class TestConfiguation: XCTestCase {
     
@@ -25,7 +26,7 @@ class TestConfiguation: XCTestCase {
         
         for argument in ["-b", "-abcde"] {
             
-            CLInterface.default.reset()
+            CLInterface.reset()
             CLInterface.default.name = "CMT-Test"
             
             let argument1 = CLConcreteArgument(shortFlag: "a", longFlag: "argumentA")

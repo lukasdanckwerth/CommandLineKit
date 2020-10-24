@@ -7,7 +7,9 @@
 //
 
 import XCTest
-@testable import CLKit
+
+@testable
+import CLKit
 
 extension Float: CLStringInitializable {
     
@@ -23,7 +25,7 @@ class TestOptions: XCTestCase {
         super.setUp()
         
         // Reset the `CLInterface`
-        CLInterface.default.reset()
+        CLInterface.reset()
     }
     
     
@@ -51,7 +53,7 @@ class TestOptions: XCTestCase {
     
     func testSuccessfullParsing() {
         
-        CLInterface.default.reset()
+        CLInterface.reset()
         
         let option = CLConcreteOption(name: "option")
         let stringOption = StringOption(name: "stringOption")
@@ -204,11 +206,11 @@ class TestOptions: XCTestCase {
     
     func testCustomOptionValidation() {
         
-        CLInterface.default.reset()
+        CLInterface.reset()
         
         let createIntOption = {
             
-            CLInterface.default.reset()
+            CLInterface.reset()
             
             let unpermittedValues = [1, 2, 3, 4, 5, 6]
             let intOption = NumberOption(name: "intOption", helpMessage: "Takes all int values except of [1, 2, 3, 4, 5, 6].")
@@ -443,7 +445,7 @@ class TestOptions: XCTestCase {
             XCTFail(error.localizedDescription)
         }
         
-        CLInterface.default.reset()
+        CLInterface.reset()
         existingFileOption = CLFileOption(name: "file1", fileExistenceRequired: true)
         
         do {

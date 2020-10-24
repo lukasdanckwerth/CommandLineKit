@@ -15,28 +15,12 @@ class TestArguments: XCTestCase {
     override func setUp() {
         
         // reset the `CLInterface`
-        CLInterface.default.reset()
-    }
-
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+        CLInterface.reset()
     }
     
     func testDefaultValues() {
         
-        CLInterface.default.reset()
+        CLInterface.reset()
         
         let numberArgumentDefault0 = NumberArgument(shortFlag: "n1", longFlag: "number1", defaultValue: 0)
         let numberArgumentDefault1 = NumberArgument(shortFlag: "n2", longFlag: "number2", defaultValue: 1)

@@ -10,15 +10,6 @@ import CLKit
 
 extension CLInterface {
     
-    func reset() {
-        
-        selectedArguments = []
-        option = nil
-        
-        arguments = []
-        options = []
-    }
-    
     func getStats() -> String {
         return """
         Name: \(name)
@@ -32,5 +23,9 @@ extension CLInterface {
         Selected Option: \(String(describing: option))
         Selected Arguments: \(selectedArguments)
         """
+    }
+    
+    static func reset() {
+        CLInterface.default = CLInterface(name: "Default")
     }
 }
