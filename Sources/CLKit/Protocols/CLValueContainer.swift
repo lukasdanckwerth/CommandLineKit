@@ -15,4 +15,5 @@ protocol CLValueContainer {
     
     /// Tries to parse and validate the given raw value before setting it as value.
     func parse(rawValue: String) -> CLValidationResult
+    
 }

@@ -18,4 +18,5 @@ protocol CLTypeValueContainer: CLValueContainer {
     
     /// The default value of this option.
     var defaultValue: ValueType? { get set }
+    
 }

@@ -78,7 +78,6 @@ extension CLInterface {
                             
                             // Validate the set value.
                             let validationResult = valueableOption.parse(rawValue: optionValue)
-                            print("validationResult", validationResult)
                             
                             switch validationResult {
                             case .success:

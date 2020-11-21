@@ -32,7 +32,9 @@ open class CLTypeArgument<ValueType: CLStringInitializable>: CLConcreteArgument,
     }
     
     /// Returns the type of the value of this argument.
-    open var valueType: String { return "\("\(type(of: ValueType.self))".split(separator: ".").first ?? "")".uppercased() }
+    open var valueType: String {
+        return "\("\(type(of: ValueType.self))".split(separator: ".").first ?? "")".uppercased()
+    }
     
     public convenience init(shortFlag: String? = nil, longFlag: String, help: String? = nil, required: Bool = false, defaultValue: ValueType? = nil) {
         self.init(shortFlag: shortFlag, longFlag: longFlag, help: help, required: required)

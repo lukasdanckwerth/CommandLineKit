@@ -12,8 +12,8 @@ public enum CLValidationResult {
     
     /// Case for successfully validation.
     case success
+    
     /// Case for validation failure.  Message contains more info.
     case fail(message: String)
+    
 }
-
-

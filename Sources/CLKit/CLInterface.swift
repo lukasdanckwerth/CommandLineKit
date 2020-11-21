@@ -64,8 +64,11 @@ open class CLInterface {
     }
     
     /// The selected option parsed from the command line. May be `nil`.
+    ///
     open var option: CLConcreteOption!
+    
     /// The selected arguments parsed from the command line.
+    ///
     open var selectedArguments: [CLConcreteArgument] = []
     
     /// A closure to print a custom help manual page.

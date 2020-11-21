@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class CLConcreteOption: CLOption, CLCustomValidateable {
+open class CLConcreteOption: CLOption, CLValidateable {
     
     public var description: String {
         return "Option[name=\(name)]"

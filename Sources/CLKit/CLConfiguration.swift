@@ -30,5 +30,6 @@ extension CLInterface {
         
         /// Allow unknown raw arguments
         public static let allowUnknownArguments = CLConfiguration(rawValue: 1 << 4)
+        
     }
 }

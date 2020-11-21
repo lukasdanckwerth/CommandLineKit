@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class CLConcreteArgument: CLArgument, CLCustomValidateable {
+open class CLConcreteArgument: CLArgument, CLValidateable {
     
     /// The prefix used for short flags of `Argument`s.
     public static var prefixShortFlag = "-"

@@ -15,4 +15,5 @@ protocol CLMultiValueContainer: CLValueContainer {
     
     /// The value of this option.
     var values: [ValueType] { get set }
+    
 }

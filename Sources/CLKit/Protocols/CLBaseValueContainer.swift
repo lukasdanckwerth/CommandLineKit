@@ -11,4 +11,5 @@ protocol CLBaseValueContainer {
     
     /// The default value of this option.
     var baseDefaultValue: Any? { get set }
+    
 }

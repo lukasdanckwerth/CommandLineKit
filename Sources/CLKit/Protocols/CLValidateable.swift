@@ -1,5 +1,5 @@
 //
-//  CLCustomValidateable.swift
+//  CLValidateable.swift
 //  
 //
 //  Created by Lukas Danckwerth on 14.09.20.
@@ -8,8 +8,11 @@
 import Foundation
 
 /// Protocol for validation.
-protocol CLCustomValidateable {
+///
+protocol CLValidateable {
     
-    /// Custom closure to validate the `CLCustomValidateable`.
+    /// Custom closure to validate the `CLValidateable`.
+    ///
     var customValidation: (() -> CLValidationResult)? { get set }
+    
 }
