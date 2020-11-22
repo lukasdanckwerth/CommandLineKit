@@ -67,13 +67,4 @@ class TestConfiguation: XCTestCase {
             }
         }
     }
-    
-    func testInfixOperators() {
-        
-    }
-    
-    // TODO: Wrong test due to non existing single option mode (for now).
-    func testSingleOptionMode() {
-        
-    }
 }

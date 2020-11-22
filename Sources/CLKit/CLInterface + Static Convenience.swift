@@ -9,6 +9,8 @@ import Foundation
 
 extension CLInterface {
     
+    // MARK: - Static convenience
+    
     /// The program's current directory path.
     public static var currentDirectoryPath: String {
         return FileManager.default.currentDirectoryPath

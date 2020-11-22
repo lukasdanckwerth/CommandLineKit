@@ -29,21 +29,29 @@ open class CLInterface {
     
     // ===----------------------------------------------------------------------------------------------------------===
     //
+    // MARK: - Default Instance
+    // ===----------------------------------------------------------------------------------------------------------===
+    
+    /// Default shared instance.
+    ///
+    public static var `default`: CLInterface = CLInterface(name: "Default")
+    
+    
+    // ===----------------------------------------------------------------------------------------------------------===
+    //
     // MARK: - Properties
     // ===----------------------------------------------------------------------------------------------------------===
     
     /// The name of the command line tool.
     open var name: String = ""
+    
     /// Describes the command line tool.
     open var about: String?
+    
     /// The version of the command line tool.
     open var version: String = "0"
     
-    /// Contains the raw arguments as received from the `parse(_ rawArguments: [String])` function.
-    internal(set) public var rawArguments: [String]?
-    
-    /// After calling `parse()`, this property will contain any values that weren't captured by an `Option` or `Argument`.
-    internal(set) public lazy var unparsedArguments: [String] = []
+
     
     /// The underlying array of arguments.
     open var arguments: [CLConcreteArgument] = []
@@ -63,7 +71,7 @@ open class CLInterface {
         })
     }
     
-    /// The selected option parsed from the command line. May be `nil`.
+    /// The selected option parsed from the command line.  May be `nil`.
     ///
     open var option: CLConcreteOption!
     
@@ -71,8 +79,13 @@ open class CLInterface {
     ///
     open var selectedArguments: [CLConcreteArgument] = []
     
-    /// A closure to print a custom help manual page.
-    open var manualPrinter: ManualPrinter?
+
+    
+    /// Contains the raw arguments as received from the `parse(_ rawArguments: [String])` function.
+    internal(set) public var rawArguments: [String]?
+    
+    /// After calling `parse()`, this property will contain any values that weren't captured by an `Option` or `Argument`.
+    internal(set) public lazy var unparsedArguments: [String] = []
     
     
     // MARK: - Configuration
@@ -81,9 +94,16 @@ open class CLInterface {
     public var configuration: CLConfiguration = []
     
     
+    // MARK: - Manual Printer
+    
+    /// A closure to print a custom help manual page.
+    ///
+    open var manualPrinter: ManualPrinter?
+    
+    
     // MARK: - Initialization
     
-    public init(name: String, version: String = "0", about: String? = nil, configuration: CLConfiguration = []) {
+    public init(name: String = "", version: String = "0", about: String? = nil, configuration: CLConfiguration = []) {
         self.name = name
         self.version = version
         self.about = about
@@ -118,12 +138,4 @@ open class CLInterface {
             exit(error.localizedDescription, printHelp: flag)
         }
     }
-    
-    // ===----------------------------------------------------------------------------------------------------------===
-    //
-    // MARK: - Default Instance
-    // ===----------------------------------------------------------------------------------------------------------===
-    
-    /// Default instance
-    public static var `default`: CLInterface = CLInterface(name: "Default")
 }

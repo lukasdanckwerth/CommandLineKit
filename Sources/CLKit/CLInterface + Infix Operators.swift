@@ -9,12 +9,14 @@ import Foundation
 
 // MARK: - Option
 
+@discardableResult
 func + (left: CLInterface, right: CLConcreteOption) -> CLInterface {
     left.options.append(right)
     return left
 }
 
-func - (left: CLInterface, right: [CLConcreteOption]) -> CLInterface {
+@discardableResult
+func + (left: CLInterface, right: [CLConcreteOption]) -> CLInterface {
     left.options.append(contentsOf: right)
     return left
 }
@@ -22,12 +24,14 @@ func - (left: CLInterface, right: [CLConcreteOption]) -> CLInterface {
 
 // MARK: - Argument
 
+@discardableResult
 func + (left: CLInterface, right: CLConcreteArgument) -> CLInterface {
     left.arguments.append(right)
     return left
 }
 
-func - (left: CLInterface, right: [CLConcreteArgument]) -> CLInterface {
+@discardableResult
+func + (left: CLInterface, right: [CLConcreteArgument]) -> CLInterface {
     left.arguments.append(contentsOf: right)
     return left
 }
