@@ -20,15 +20,6 @@ extension CLInterface {
         }
     }
     
-    /// Parses the arguments from the command line given in `CommandLine.arguments` and dies with an error message.
-    public func parseOrExit() {
-        do { try parse() }
-        catch let error { CLInterface.exit(
-            withError: error,
-            printHelp: CLInterface.default.configuration.contains(.printHelpOnExit))
-        }
-    }
-    
     /// Parse the given arguments.
     ///
     /// - argument rawArguments: The raw arguments to parse.
@@ -223,6 +214,15 @@ extension CLInterface {
                     throw CLInterfaceError.argumentValidationFailure(argument: argument, message: message)
                 }
             }
+        }
+    }
+    
+    /// Parses the arguments from the command line given in `CommandLine.arguments` and dies with an error message.
+    public func parseOrExit() {
+        do { try parse() }
+        catch let error { CLInterface.exit(
+            withError: error,
+            printHelp: CLInterface.default.configuration.contains(.printManualOnFailure))
         }
     }
 }

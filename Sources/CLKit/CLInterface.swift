@@ -118,7 +118,7 @@ open class CLInterface {
     /// - argument exitCode:     The exit code wich will be used as a parameter for the `Foundation.exit(int)` function.
     public static func exit(_ message: String, printHelp: Bool = false, exitCode: Int32 = EXIT_SUCCESS) -> Never {
         Swift.print(exitCode == EXIT_FAILURE ? "Error: \(message)\n" : "\(message)\n")
-        if printHelp || configuration.contains(.printHelpOnExit) { self.printHelp() }
+        if printHelp || configuration.contains(.printManualOnFailure) { self.printHelp() }
         Foundation.exit(exitCode)
     }
     
@@ -133,7 +133,7 @@ open class CLInterface {
         
         switch commandLineInterfaceError {
         case .noOptionSelected:
-            exit("No option selected.", printHelp: flag || configuration.contains(.printHelpForNoSelection))
+            exit("No option selected.", printHelp: flag || configuration.contains(.printManualOnNoSelection))
         default:
             exit(error.localizedDescription, printHelp: flag)
         }

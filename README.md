@@ -397,6 +397,10 @@ CommandLineInterface.defaul.manualPrinter = {CommandLineInterface in
 }
 ```
 
+## Internal notes for developing
+
+
+
 ## Author
 - [Lukas Danckwerth](https://github.com/lukasdanckwerth)
 

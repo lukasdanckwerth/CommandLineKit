@@ -248,7 +248,7 @@ class TestOptions: XCTestCase {
     
     // MARK: - Options with required Arguments -
     
-    func testRequiredments() {
+    func testRequirements() {
         
         let resizeOption = StringOption(name: "resize", helpMessage: "Resizes the given image.")
         let stretchHorizontalOption = StringOption(name: "stretchHorizontal", helpMessage: "Stretches the given image horizontally.")

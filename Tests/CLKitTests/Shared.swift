@@ -6,7 +6,19 @@
 //
 
 import Foundation
+import XCTest
+
+@testable
 import CLKit
+
+class CLTestCase: XCTestCase {
+    
+    override func setUp() {
+        
+        // reset the `CLInterface`
+        CLInterface.reset()
+    }
+}
 
 extension CLInterface {
     
@@ -29,3 +41,4 @@ extension CLInterface {
         CLInterface.default = CLInterface(name: "Default")
     }
 }
+

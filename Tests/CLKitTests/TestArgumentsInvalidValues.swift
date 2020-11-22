@@ -12,14 +12,13 @@ import XCTest
 class TestArgumentsInvalidValues: XCTestCase {
     
     override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
         
         // Reset the `CLInterface`
         CLInterface.reset()
     }
     
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        
     }
     
     func testNoValueParsedError() {
@@ -30,33 +29,33 @@ class TestArgumentsInvalidValues: XCTestCase {
                      ["CLH-Test", "-n", "12", "--string"],
                      ["CLH-Test", "-s", "-n", "12"],
                      ["CLH-Test", "--string", "-n", "12"]
-            ] {
-                
-                CLInterface.reset()
-                let _ = NumberArgument(shortFlag: "n", longFlag: "number", help: "")
-                let stringArgument = StringArgument(shortFlag: "s", longFlag: "string", help: "")
-                wrapTryCatchForNoValueParsedError(args: args, argumentWithMissingValue: stringArgument)
-                
+        ] {
+            
+            CLInterface.reset()
+            let _ = NumberArgument(shortFlag: "n", longFlag: "number", help: "")
+            let stringArgument = StringArgument(shortFlag: "s", longFlag: "string", help: "")
+            wrapTryCatchForNoValueParsedError(args: args, argumentWithMissingValue: stringArgument)
+            
         }
         
         for args in [["CLH-Test", "-n"],
                      ["CLH-Test", "--number"]
-            ] {
-                
-                CLInterface.reset()
-                let numberArgument = NumberArgument(shortFlag: "n", longFlag: "number", help: "")
-                wrapTryCatchForNoValueParsedError(args: args, argumentWithMissingValue: numberArgument)
-                
+        ] {
+            
+            CLInterface.reset()
+            let numberArgument = NumberArgument(shortFlag: "n", longFlag: "number", help: "")
+            wrapTryCatchForNoValueParsedError(args: args, argumentWithMissingValue: numberArgument)
+            
         }
         
         for args in [["CLH-Test", "-d"],
                      ["CLH-Test", "--decimal"]
-            ] {
-                
-                CLInterface.reset()
-                let decimalArgument = StringArgument(shortFlag: "d", longFlag: "decimal")
-                wrapTryCatchForNoValueParsedError(args: args, argumentWithMissingValue: decimalArgument)
-                
+        ] {
+            
+            CLInterface.reset()
+            let decimalArgument = StringArgument(shortFlag: "d", longFlag: "decimal")
+            wrapTryCatchForNoValueParsedError(args: args, argumentWithMissingValue: decimalArgument)
+            
         }
         
     }
