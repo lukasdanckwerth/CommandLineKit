@@ -108,7 +108,6 @@ open class CLInterface {
         self.version = version
         self.about = about
         self.configuration = configuration
-        // CLInterface.default = self
     }
     
     /// Prints the given message and exits the programm.

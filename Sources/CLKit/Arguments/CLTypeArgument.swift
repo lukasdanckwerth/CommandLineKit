@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class CLTypeArgument<ValueType: CLStringInitializable>: CLConcreteArgument, CLTypeValueContainer, CLBaseValueContainer {
+open class CLTypeArgument<ValueType: CLStringInitializable>: CLConcreteArgument, CLTypeValueContainer, CLDefaultValueContainer {
     
     override public var description: String {
         return "TypedArgument[\(longFlag), \(shortFlag ?? ""), value: \(String(describing: value)), defaultValue: \(String(describing: defaultValue)), isRequired: \(isRequired)]"
@@ -23,12 +23,12 @@ open class CLTypeArgument<ValueType: CLStringInitializable>: CLConcreteArgument,
     }
     
     /// The default value of this option.
-    internal var baseDefaultValue: Any?
+    internal var defaulValue: Any?
     
     /// The default value of the argument.
     public var defaultValue: ValueType? {
-        get { return baseDefaultValue as? ValueType }
-        set { baseDefaultValue = newValue }
+        get { return defaulValue as? ValueType }
+        set { defaulValue = newValue }
     }
     
     /// Returns the type of the value of this argument.

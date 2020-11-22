@@ -7,9 +7,9 @@
 
 import Foundation
 
-protocol CLBaseValueContainer {
+protocol CLDefaultValueContainer {
     
     /// The default value of this option.
-    var baseDefaultValue: Any? { get set }
+    var defaulValue: Any? { get set }
     
 }

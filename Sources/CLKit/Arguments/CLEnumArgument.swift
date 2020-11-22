@@ -8,7 +8,7 @@
 import Foundation
 
 /// Argument which takes an enum case.
-open class CLEnumArgument<EnumType: RawRepresentable>: CLConcreteArgument, CLTypeValueContainer, CLBaseValueContainer where EnumType.RawValue == String, EnumType: Hashable {
+open class CLEnumArgument<EnumType: RawRepresentable>: CLConcreteArgument, CLTypeValueContainer, CLDefaultValueContainer where EnumType.RawValue == String, EnumType: Hashable {
     
     /// Typealias for the `TypedValueable` protocol.
     typealias ValueType = EnumType
@@ -23,12 +23,12 @@ open class CLEnumArgument<EnumType: RawRepresentable>: CLConcreteArgument, CLTyp
     }
     
     /// The default value of this option.
-    open var baseDefaultValue: Any?
+    open var defaulValue: Any?
     
     /// The default value of the argument.
     open var defaultValue: EnumType? {
-        get { return baseDefaultValue as? EnumType }
-        set { baseDefaultValue = newValue }
+        get { return defaulValue as? EnumType }
+        set { defaulValue = newValue }
     }
     
     /// Returns the type of the value of this argument.

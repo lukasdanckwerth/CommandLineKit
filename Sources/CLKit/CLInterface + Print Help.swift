@@ -74,7 +74,7 @@ extension CLInterface {
                     
                     if let helpMessage = argument.helpMessage { printMessage += "\n\t\t\(helpMessage) " }
                     
-                    if let defaultValue = (argument as? CLBaseValueContainer)?.baseDefaultValue {
+                    if let defaultValue = (argument as? CLDefaultValueContainer)?.defaulValue {
                         printMessage = addWhitespaceIfNeeded(printMessage) + "(Default is '\(defaultValue)')"
                     } else if argument.isRequired {
                         printMessage = addWhitespaceIfNeeded(printMessage) + "(Required)"

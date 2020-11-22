@@ -178,7 +178,7 @@ extension CLInterface {
         if let requiredArguments = option?.requiredArguments {
             for requiredArgument in requiredArguments {
                 guard selectedArguments.contains(requiredArgument)
-                    || (requiredArgument as? CLBaseValueContainer)?.baseDefaultValue != nil else {
+                    || (requiredArgument as? CLDefaultValueContainer)?.defaulValue != nil else {
                         throw CLInterfaceError.missingRequiredArgument(
                             option: option!,
                             argument: requiredArgument
