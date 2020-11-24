@@ -10,14 +10,14 @@ import Foundation
 // MARK: - Option
 
 @discardableResult
-func + (left: CLInterface, right: CLConcreteOption) -> CLInterface {
-    left.options.append(right)
+func + (left: CLInterface, right: CLCommand) -> CLInterface {
+    left.commands.append(right)
     return left
 }
 
 @discardableResult
-func + (left: CLInterface, right: [CLConcreteOption]) -> CLInterface {
-    left.options.append(contentsOf: right)
+func + (left: CLInterface, right: [CLCommand]) -> CLInterface {
+    left.commands.append(contentsOf: right)
     return left
 }
 

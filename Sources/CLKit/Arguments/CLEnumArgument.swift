@@ -8,7 +8,7 @@
 import Foundation
 
 /// Argument which takes an enum case.
-open class CLEnumArgument<EnumType: RawRepresentable>: CLConcreteArgument, CLTypeValueContainer, CLDefaultValueContainer where EnumType.RawValue == String, EnumType: Hashable {
+open class CLEnumArgument<EnumType: RawRepresentable>: CLConcreteArgument, CLTypeValueContainer where EnumType.RawValue == String, EnumType: Hashable {
     
     /// Typealias for the `TypedValueable` protocol.
     typealias ValueType = EnumType

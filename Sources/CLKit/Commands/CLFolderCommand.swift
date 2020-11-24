@@ -1,5 +1,5 @@
 //
-//  CLFolderOption.swift
+//  CLFolderCommand.swift
 //  
 //
 //  Created by Lukas Danckwerth on 14.09.20.
@@ -8,7 +8,7 @@
 import Foundation
 
 /// Option for Folders.
-open class CLFolderOption: CLFileOption {
+open class CLFolderCommand: CLFileCommand {
     
     /// Returns the type of the value ('FOLDER_PATH') of this argument.
     override open var valueType: String { return "FOLDER_PATH" }

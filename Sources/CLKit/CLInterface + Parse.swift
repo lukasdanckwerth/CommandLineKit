@@ -47,7 +47,7 @@ extension CLInterface {
             
             let optionNameCandidate = rawArguments[index]
             
-            for option in options {
+            for option in commands {
                 
                 if option.name == optionNameCandidate {
                     
@@ -77,7 +77,7 @@ extension CLInterface {
                                 throw CLInterfaceError.parseOptionFailure(option: option, message: message)
                             }
                             
-                        } else if (option as? CLDefaultValueContainer)?.containsDefaultValue == true {
+                        } else if option.containsDefaultValue() == true {
                             // empty
                         } else {
                             throw CLInterfaceError.parseOptionFailure(
@@ -177,8 +177,9 @@ extension CLInterface {
         
         if let requiredArguments = option?.requiredArguments {
             for requiredArgument in requiredArguments {
+                
                 guard selectedArguments.contains(requiredArgument)
-                        || (requiredArgument as? CLDefaultValueContainer)?.defaulValue != nil else {
+                        || (requiredArgument as? CLValueContainer)?.defaultValue != nil else {
                     throw CLInterfaceError.missingRequiredArgument(
                         option: option!,
                         argument: requiredArgument
@@ -227,10 +228,10 @@ extension CLInterface {
         }
     }
     
-    /// Returns the `CLConcreteOption` for the given selector.
+    /// Returns the `CLCommand` for the given selector.
     ///
-    public func option(for selector: CLSelector) -> CLConcreteOption? {
-        return options.first(where: { $0.name == selector })
+    public func command(for selector: CLSelector) -> CLCommand? {
+        return commands.first(where: { $0.name == selector })
     }
     
     /// Returns the `CLConcreteArgument` for the given selector.

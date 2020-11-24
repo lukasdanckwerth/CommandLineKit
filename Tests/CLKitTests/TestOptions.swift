@@ -40,7 +40,7 @@ class TestOptions: XCTestCase {
         
         for rawValue in ["-1", "0", "ab", "AB", "::"] {
             
-            let stringOption = CLStringOption(name: "stringOption")
+            let stringOption = CLStringCommand(name: "stringOption")
             
             switch stringOption.parse(rawValue: rawValue) {
             case .fail(let message): XCTFail(message)
@@ -55,15 +55,15 @@ class TestOptions: XCTestCase {
         
         CLInterface.reset()
         
-        let option = CLConcreteOption(name: "option")
-        let stringOption = CLStringOption(name: "stringOption")
-        let numberOption = CLNumberOption(name: "numberOption")
-        let negCLNumberOption = CLNumberOption(name: "negCLNumberOption")
-        let decimalOption = CLDecimalOption(name: "decimalOption")
-        let negCLDecimalOption = CLDecimalOption(name: "negCLDecimalOption")
-        let boolOption = CLBoolOption(name: "boolOption")
-        let negCLBoolOption = CLBoolOption(name: "negCLBoolOption")
-        let enumOption = CLEnumOption<Suboption>(name: "enumOption")
+        let option = CLCommand(name: "option")
+        let stringOption = CLStringCommand(name: "stringOption")
+        let numberOption = CLNumberCommand(name: "numberOption")
+        let negCLNumberOption = CLNumberCommand(name: "negCLNumberOption")
+        let decimalOption = CLDecimalCommand(name: "decimalOption")
+        let negCLDecimalOption = CLDecimalCommand(name: "negCLDecimalOption")
+        let boolOption = CLBoolCommand(name: "boolOption")
+        let negCLBoolOption = CLBoolCommand(name: "negCLBoolOption")
+        let enumOption = CLEnumCommand<Suboption>(name: "enumOption")
         
         CLInterface.name = "TestCLT"
         
@@ -213,7 +213,7 @@ class TestOptions: XCTestCase {
             CLInterface.reset()
             
             let unpermittedValues = [1, 2, 3, 4, 5, 6]
-            let intOption = CLNumberOption(name: "intOption", helpMessage: "Takes all int values except of [1, 2, 3, 4, 5, 6].")
+            let intOption = CLNumberCommand(name: "intOption", help: "Takes all int values except of [1, 2, 3, 4, 5, 6].")
             
             intOption.validation = {
                 
@@ -250,8 +250,8 @@ class TestOptions: XCTestCase {
     
     func testRequirements() {
         
-        let resizeOption = CLStringOption(name: "resize", helpMessage: "Resizes the given image.")
-        let stretchHorizontalOption = CLStringOption(name: "stretchHorizontal", helpMessage: "Stretches the given image horizontally.")
+        let resizeOption = CLStringCommand(name: "resize", help: "Resizes the given image.")
+        let stretchHorizontalOption = CLStringCommand(name: "stretchHorizontal", help: "Stretches the given image horizontally.")
         
         let widthArgument = NumberArgument(shortFlag: "w", longFlag: "width", help: "The width of the output image")
         let heightArgument = NumberArgument(shortFlag: "h", longFlag: "height", help: "The height of the output image")
@@ -280,7 +280,7 @@ class TestOptions: XCTestCase {
         // Reset the `CLInterface`
         CLInterface.default = CLInterface(name: "TestCLT")
         
-        class NegativeFloatOption: CLTypeOption<Float> {
+        class NegativeFloatOption: CLValueCommand<Float> {
             
             override func parse(rawValue: String) -> CLValidationResult {
                 guard let float = Float(string: rawValue) else {
@@ -349,7 +349,7 @@ class TestOptions: XCTestCase {
         // Reset the `CLInterface`
         CLInterface.default = CLInterface(name: "CLH-Test")
         
-        let enumOption = CLEnumOption<Suboption>(name: "suboption", helpMessage: "Choose a suboption.")
+        let enumOption = CLEnumCommand<Suboption>(name: "suboption", help: "Choose a suboption.")
         
         var countSuccessfully = 0
         for value in ["value1", "value2", "value3"] {
@@ -409,7 +409,7 @@ class TestOptions: XCTestCase {
                 FileManager.default.createFile(atPath: path, contents: nil, attributes: nil)
             }
             
-            let option = CLFileOption(name: optionName, fileExistenceRequired: fileExistenceRequired)
+            let option = CLFileCommand(name: optionName, fileExistenceRequired: fileExistenceRequired)
             
             do {
                 if let path = path {
@@ -433,7 +433,7 @@ class TestOptions: XCTestCase {
     
     func testFileOptions() {
         
-        var existingFileOption = CLFileOption(name: "file1", fileExistenceRequired: true)
+        var existingFileOption = CLFileCommand(name: "file1", fileExistenceRequired: true)
         
         // Create file1...
         let path = "/tmp/de.aid.CLInterfaceTestFile"
@@ -446,7 +446,7 @@ class TestOptions: XCTestCase {
         }
         
         CLInterface.reset()
-        existingFileOption = CLFileOption(name: "file1", fileExistenceRequired: true)
+        existingFileOption = CLFileCommand(name: "file1", fileExistenceRequired: true)
         
         do {
             try CLInterface.default.parse(["CLH-Test", "file1", "/tmp/invalidFilePath-jklasdAKLER2"])

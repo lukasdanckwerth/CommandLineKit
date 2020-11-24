@@ -12,6 +12,10 @@ open class CLCollectionArgument<Value: CLStringInitializable>: CLConcreteArgumen
     /// Typealias for the `TypedValueable` protocol.
     public typealias ValueType = Value
     
+    /// The default value of this option.
+    ///
+    var defaulValue: Any?
+    
     /// Returns the type of the value of this argument.
     open var valueType: String {
         let typeString = "\("\(type(of: ValueType.self))".split(separator: ".").first ?? "")".uppercased()

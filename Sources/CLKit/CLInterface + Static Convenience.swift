@@ -30,7 +30,7 @@ extension CLInterface {
     }
     
     /// The selected option parsed from the command line. May be `nil`.
-    public static var option: CLConcreteOption! {
+    public static var option: CLCommand! {
         get { return CLInterface.default.option }
         set { CLInterface.default.option = newValue }
     }

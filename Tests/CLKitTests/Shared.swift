@@ -29,7 +29,7 @@ extension CLInterface {
         
         Tokens: \(String(describing: rawArguments))
         
-        Options: \(options)
+        Commands: \(commands)
         Arguments: \(arguments)
         
         Selected Option: \(String(describing: option))

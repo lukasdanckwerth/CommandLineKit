@@ -20,3 +20,13 @@ protocol CLValueContainer {
     func parse(rawValue: String) -> CLValidationResult
     
 }
+
+extension CLValueContainer {
+    
+    /// Returns `true` if the receiver contains a value in the `defaultValue` property.  Will
+    /// return `false` if the property is `nil`.
+    ///
+    func containsDefaultValue() -> Bool where Self: CLTypeValueContainer {
+        return self.defaultValue != nil
+    }
+}

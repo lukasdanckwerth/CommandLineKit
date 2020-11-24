@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class CLTypeArgument<ValueType: CLStringInitializable>: CLConcreteArgument, CLTypeValueContainer, CLDefaultValueContainer {
+open class CLTypeArgument<ValueType: CLStringInitializable>: CLConcreteArgument, CLTypeValueContainer {
     
     override public var description: String {
         return "TypedArgument[\(longFlag), \(shortFlag ?? ""), value: \(String(describing: value)), defaultValue: \(String(describing: defaultValue)), isRequired: \(isRequired)]"

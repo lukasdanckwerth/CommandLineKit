@@ -19,25 +19,25 @@ extension CLInterface {
         /// Thrown when no option is selected but the `needsValidOption` property is set to `true`.
         case noOptionSelected
         /// Thrown when an option already has been set but an other is found.
-        case multipleOptionsSelected(option1: CLConcreteOption, option2: CLConcreteOption)
+        case multipleOptionsSelected(option1: CLCommand, option2: CLCommand)
         
         /// Thrown for a failure in the validation of an selected option.
-        case parseOptionFailure(option: CLConcreteOption, message: String)
+        case parseOptionFailure(option: CLCommand, message: String)
         /// Thrown for an argument which value can't be parsed to the specifyed type.
         case parseArgumentFailure(argument: CLConcreteArgument, message: String)
         
         /// Thrown for a missing required value.
         case missingRequiredArgumentValue(argument: CLConcreteArgument)
         /// Thrown for a missing required value of an option.
-        case missingRequiredOptionValue(option: CLConcreteOption)
+        case missingRequiredOptionValue(option: CLCommand)
         /// Thrown for a missing required argument.
-        case missingRequiredArgument(option: CLConcreteOption, argument: CLConcreteArgument)
+        case missingRequiredArgument(option: CLCommand, argument: CLConcreteArgument)
         /// Throws for an unknown argument.
         case unknownArgument(rawArgument: String)
         
         
         /// Thrown when a custom validation fails.
-        case optionValidationFailure(option: CLConcreteOption, message: String)
+        case optionValidationFailure(option: CLCommand, message: String)
         /// Thrown when a custom validation fails.
         case argumentValidationFailure(argument: CLConcreteArgument, message: String)
         

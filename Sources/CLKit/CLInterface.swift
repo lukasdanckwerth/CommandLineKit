@@ -62,9 +62,6 @@ open class CLInterface {
     open var commands: [CLCommand] = []
     
     /// The underlying array of arguments.
-    open var options: [CLConcreteOption] = []
-    
-    /// The underlying array of arguments.
     open var arguments: [CLConcreteArgument] = []
     
 
@@ -83,7 +80,7 @@ open class CLInterface {
     
     /// The selected option parsed from the command line.  May be `nil`.
     ///
-    open var option: CLConcreteOption!
+    open var option: CLCommand!
     
     /// The selected arguments parsed from the command line.
     ///

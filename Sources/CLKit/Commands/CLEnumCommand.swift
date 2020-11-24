@@ -1,5 +1,5 @@
 //
-//  CLEnumOption.swift
+//  CLEnumCommand.swift
 //  
 //
 //  Created by Lukas Danckwerth on 14.09.20.
@@ -7,20 +7,19 @@
 
 import Foundation
 
-open class CLEnumOption<EnumType: RawRepresentable>: CLConcreteOption, CLTypeValueContainer where EnumType.RawValue == String, EnumType: Hashable {
+open class CLEnumCommand<EnumType: RawRepresentable>: CLCommand, CLTypeValueContainer where EnumType.RawValue == String, EnumType: Hashable {
     
     /// Typealias for `TypedValueable` protocol.
     typealias ValueType = EnumType
     
-    /// The enum value of this option.
-    public var value: EnumType!
+    /// The default value of this command.
+    ///
+    open var defaultValue: EnumType?
     
-    /// The default value of this option.
-    public var defaultValue: EnumType?
+    /// The enum value of this command.
+    open var value: EnumType!
     
-    var containsDefaultValue: Bool { defaultValue != nil }
-    
-    /// Returns the type of the value of this option.
+    /// Returns the type of the value of this command.
     open var valueType: String {
         return iterateEnum(value).map({ return "'\($0)'" }).joined(separator: ", ")
     }

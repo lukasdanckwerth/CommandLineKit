@@ -23,19 +23,19 @@ class TextInfixOperators: XCTestCase {
         
         // MARK: - Options
         
-        interface + CLStringOption(name: "option1", helpMessage: nil)
-        interface + CLStringOption(name: "option2", helpMessage: nil)
-        interface + CLStringOption(name: "option3", helpMessage: nil)
+        interface + CLStringCommand(name: "option1", help: nil)
+        interface + CLStringCommand(name: "option2", help: nil)
+        interface + CLStringCommand(name: "option3", help: nil)
         
-        XCTAssertFalse(interface.options.isEmpty, "Expecting options collection to be NOT empty.")
-        XCTAssertEqual(interface.options.count, 3, "Expecting collection of options to contain 3 items.")
+        XCTAssertFalse(interface.commands.isEmpty, "Expecting options collection to be NOT empty.")
+        XCTAssertEqual(interface.commands.count, 3, "Expecting collection of options to contain 3 items.")
         
         interface = interface + [
-            CLStringOption(name: "option4", helpMessage: nil),
-            CLStringOption(name: "option5", helpMessage: nil)
+            CLStringCommand(name: "option4", help: nil),
+            CLStringCommand(name: "option5", help: nil)
         ]
         
-        XCTAssertEqual(interface.options.count, 5, "Expecting collection of options to contain 5 items.")
+        XCTAssertEqual(interface.commands.count, 5, "Expecting collection of options to contain 5 items.")
         
         
         // MARK: - Arguments

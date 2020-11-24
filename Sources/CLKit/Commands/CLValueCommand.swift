@@ -1,5 +1,5 @@
 //
-//  CLTypeOption.swift
+//  CLValueCommand.swift
 //  
 //
 //  Created by Lukas Danckwerth on 14.09.20.
@@ -7,10 +7,14 @@
 
 import Foundation
 
-open class CLTypeOption<Value: CLStringInitializable>: CLConcreteOption, CLTypeValueContainer {
+open class CLValueCommand<Value: CLStringInitializable>: CLCommand, CLTypeValueContainer {
     
     /// Typealias for `TypedValueable` protocol
     public typealias ValueType = Value
+    
+    /// The default value of this option.
+    ///
+    var defaulValue: Any?
     
     /// The value of this option
     public var value: Value!
@@ -36,13 +40,13 @@ open class CLTypeOption<Value: CLStringInitializable>: CLConcreteOption, CLTypeV
 }
 
 /// A command line option which takes an `Int` value.
-public typealias CLNumberOption = CLTypeOption<Int>
+public typealias CLNumberCommand = CLValueCommand<Int>
 
 /// A command line option which takes an `Double` value.
-public typealias CLDecimalOption = CLTypeOption<Double>
+public typealias CLDecimalCommand = CLValueCommand<Double>
 
 /// A command line option which takes an `String` value.
-public typealias CLStringOption = CLTypeOption<String>
+public typealias CLStringCommand = CLValueCommand<String>
 
 /// A command line option which takes an `Bool` value.
-public typealias CLBoolOption = CLTypeOption<Bool>
+public typealias CLBoolCommand = CLValueCommand<Bool>

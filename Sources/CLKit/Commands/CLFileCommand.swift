@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class CLFileOption: CLTypeOption<URL> {
+open class CLFileCommand: CLValueCommand<URL> {
     
     /// A Boolean value indicating whether the file must exists.
     open var isExsitenceRequired: Bool = false
@@ -24,7 +24,7 @@ open class CLFileOption: CLTypeOption<URL> {
     /// - parameter description:      Some help message describing the option.
     /// - parameter requireExistence: A Boolean value indicating whether the file must exist.
     convenience public init(name: String, help: String? = nil, fileExistenceRequired: Bool = false) {
-        self.init(name: name, helpMessage: help)
+        self.init(name: name, help: help)
         isExsitenceRequired = fileExistenceRequired
     }
     

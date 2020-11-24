@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class CLCommand {
+open class CLCommand: CLCommandProtocol {
     
     /// The name (and selector) of this command.
     ///
@@ -32,28 +32,19 @@ open class CLCommand {
         CLInterface.default.commands.append(self)
     }
     
+    
     // MARK: - CLValidateable
     
     /// Custom closure to validate this command.
     ///
-    open var customValidation: (() -> CLValidationResult)?
-    
+    open var validation: (() -> CLValidationResult)?
     
     
     // MARK: - Equatable
     
-    /// Returns `true` if the names of the given commands are equal, `false` else.
+    /// Returns `true` if the names of the given commands are equal, `false` if not.
     ///
     public static func ==(lhs: CLCommand, rhs: CLCommand) -> Bool {
         return lhs.name == rhs.name
-    }
-    
-    
-    // MARK: - CustomStringConvertible
-    
-    /// A textual representation of this instance.
-    ///
-    public var description: String {
-        return "\(type(of: self))[name=\(name)]"
     }
 }

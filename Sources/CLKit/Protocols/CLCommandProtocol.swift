@@ -20,8 +20,19 @@ public protocol CLCommandProtocol: CLValidateable, Equatable, CustomStringConver
     
     /// Default initialization with the given arguments.
     ///
-    /// - argument name:        The name of the option.
-    /// - argument help: Some help message describing the option.
-    init(name: String, helpMessage: String?)
+    /// - argument name:  The name of the option.
+    /// - argument help:  Some help message describing the option.
+    init(name: String, help: String?)
     
+}
+
+extension CLCommandProtocol {
+    
+    // MARK: - CustomStringConvertible
+    
+    /// A textual representation of this instance.
+    ///
+    public var description: String {
+        return "\(type(of: self))[name=\(name)]"
+    }
 }

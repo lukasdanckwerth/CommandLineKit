@@ -24,7 +24,7 @@ extension CLInterface {
             
             var printMessage = "Usage: \(cli.name)"
             
-            if cli.options.count > 0 { printMessage += " [option]" }
+            if cli.commands.count > 0 { printMessage += " [option]" }
             if cli.arguments.count > 0 { printMessage += " [arguments]" }
             printMessage += "\n"
             
@@ -32,9 +32,9 @@ extension CLInterface {
                 printMessage += "\n\(about)"
             }
             
-            if cli.options.count > 0 {
+            if cli.commands.count > 0 {
                 printMessage += "\n# OPTIONS:\n"
-                for option in cli.options {
+                for option in cli.commands {
                     
                     printMessage += "\n\t" + option.name.bold
                     
@@ -74,7 +74,7 @@ extension CLInterface {
                     
                     if let helpMessage = argument.help { printMessage += "\n\t\t\(helpMessage) " }
                     
-                    if let defaultValue = (argument as? CLDefaultValueContainer)?.defaulValue {
+                    if let defaultValue = (argument as? CLValueContainer)?.defaulValue {
                         printMessage = addWhitespaceIfNeeded(printMessage) + "(Default is '\(defaultValue)')"
                     } else if argument.isRequired {
                         printMessage = addWhitespaceIfNeeded(printMessage) + "(Required)"
