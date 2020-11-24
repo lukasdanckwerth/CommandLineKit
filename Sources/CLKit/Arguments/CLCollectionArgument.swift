@@ -12,9 +12,9 @@ open class CLCollectionArgument<Value: CLStringInitializable>: CLConcreteArgumen
     /// Typealias for the `TypedValueable` protocol.
     public typealias ValueType = Value
     
-    /// The default value of this option.
+    /// The default value of this command.
     ///
-    var defaulValue: Any?
+    var defaultValue: Any?
     
     /// Returns the type of the value of this argument.
     open var valueType: String {
@@ -27,7 +27,7 @@ open class CLCollectionArgument<Value: CLStringInitializable>: CLConcreteArgumen
     
     /// Validates the given value in raw value can be parsed to the expected type. Returns a `.fail(_)` response for an existend value
     /// or when the raw value can't be parsed.
-    func parse(rawValue: String) -> CLValidationResult {
+    public func parse(rawValue: String) -> CLValidationResult {
         
         guard let value = ValueType(rawValue) else {
             return .fail(message: "Can't parse raw value '\(rawValue)'.")

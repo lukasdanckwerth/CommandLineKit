@@ -23,8 +23,8 @@ open class CLCommand: CLCommandProtocol {
     
     /// Default initialization with the given arguments.
     ///
-    /// - argument name: The name of the option.
-    /// - argument help: Some help message describing the option.
+    /// - argument name: The name of the command.
+    /// - argument help: Some help message describing the command.
     ///
     required public init(name: String, help: String? = nil) {
         self.name = name

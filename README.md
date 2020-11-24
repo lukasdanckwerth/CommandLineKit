@@ -6,19 +6,19 @@
 
 - [Requirements](#requirements)
 - [Usage](#usage)
-    - [Options and Arguments](#`option`s-and-`argument`s)
+    - [Commands and Arguments](#`command`s-and-`argument`s)
     - [Multivalued Arguments](#multivalued-`Arguments`)
-    - [Custom validation of Options and Arguments](#custom-validation-of-options-and-arguments)
+    - [Custom validation of Commands and Arguments](#custom-validation-of-commands-and-arguments)
     - [Required Arguments](#required-arguments)
-    - [Options with required arguments](#options-with-required-arguments)
+    - [Commands with required arguments](#commands-with-required-arguments)
     - [Default values for Arguments](#Default-values-for-Arguments)
-    - [Enum options](#Enum-options)
+    - [Enum commands](#Enum-commands)
     - [Enum Arguments](#Enum-Arguments)
     - [Parsing command line arguments](#Parsing-command-line-arguments)
 - [Features](#Features)
-    - [Options Catalog](#options-catalog)
+    - [Commands Catalog](#commands-catalog)
     - [Arguments Catalog](#arguments-catalog)
-    - [Custom Options and Arguments](#custom-options-and-arguments)
+    - [Custom Commands and Arguments](#custom-commands-and-arguments)
     - [Configuration](#configuration)
     - [Manual Printer](#manual-printer)
 - [Author](#author)
@@ -32,33 +32,33 @@
 ## Usage
 
 ```swift
-let option = Option(name: "option", help: "Does some fancy stuff.")
-let stringOption = CLStringOption(name: "stringOption", help: "Takes a String value.")
-let numberOption = CLNumberOption(name: "numberOption", help: "Takes an Int value.")
+let command = CLCommand(name: "command", help: "Does some fancy stuff.")
+let stringCommand = CLStringCommand(name: "stringCommand", help: "Takes a String value.")
+let numberCommand = CLNumberCommand(name: "numberCommand", help: "Takes an Int value.")
 
 CommandLineInterface.parseOrExit() // Would `exit(EXIT_FAILURE)` if parsing throws an exception ...
 
-CommandLineInterface.option {
+CommandLineInterface.command {
 
-case option:
-    print("Selected \(option)")
-case stringOption:
-    let stringValue = stringOption.value
-    print("Selected string option with value \(stringValue)")
-case numberOption:
-    let intValue = numberOption.value
-    print("Selected number option with value \(intValue)")
+case command:
+    print("Selected \(command)")
+case stringCommand:
+    let stringValue = stringCommand.value
+    print("Selected string command with value \(stringValue)")
+case numberCommand:
+    let intValue = numberCommand.value
+    print("Selected number command with value \(intValue)")
 default:
-    print("No option selected.")
+    print("No command selected.")
 }
 
 ```
 
-> Have you noticed that it is not neccessary to add the options to the `CommandLineInterface`? By default new instanciated `Options` and `Arguments` are added to the default `CommandLineInterface` instance stored in the static `default` property of the `CommandLineInterface` class. 
+> Have you noticed that it is not neccessary to add the commands to the `CommandLineInterface`? By default new instanciated `Commands` and `Arguments` are added to the default `CommandLineInterface` instance stored in the static `default` property of the `CommandLineInterface` class. 
 
-### Options and Arguments
+### Commands and Arguments
 
-`Option`s are meant for specifying a task to do by the command line tool whereas `Argument`s specify the behaviour when executing the task. When parsing a `CommandLineInterface` expects the specification of exactly one `Option`. The naming of an `Argument` is not required for running a command line tool.
+`Command`s are meant for specifying a task to do by the command line tool whereas `Argument`s specify the behaviour when executing the task. When parsing a `CommandLineInterface` expects the specification of exactly one `Command`. The naming of an `Argument` is not required for running a command line tool.
 
 #### Multivalued Arguments
 
@@ -74,8 +74,8 @@ print(stringCollectionArgument.values)   // Prints ["Hello", "World"]
 ```
 > The `values` property of an multivalued `Argument` always returns a non-nil array.
 
-#### Custom validation of Options and Arguments
-Both, `Option`'s and `Argument`'s are conform to the `CustomValidateable` protocol, which mean you can easy guard the validation of each of them by setting a closure to the `customValidation` property of them. If set this closure is invoked by the framework to guard the validation of the `Option` or `Argument`. When offering a closure you must return a case of the `ValidationResult` enumeration. This enumeraion contains two cases. One for success (`.success`) and one for a failing validation (`.fail(let message)`). Note that the latter one takes a `message` property which you can use to specify the reason of the validation failure.
+#### Custom validation of Commands and Arguments
+Both, `Command`'s and `Argument`'s are conform to the `CustomValidateable` protocol, which mean you can easy guard the validation of each of them by setting a closure to the `customValidation` property of them. If set this closure is invoked by the framework to guard the validation of the `Command` or `Argument`. When offering a closure you must return a case of the `ValidationResult` enumeration. This enumeraion contains two cases. One for success (`.success`) and one for a failing validation (`.fail(let message)`). Note that the latter one takes a `message` property which you can use to specify the reason of the validation failure.
 
 ##### ValidationResult
 
@@ -88,14 +88,14 @@ public enum ValidationResult {
     case fail(message: String)
 }
 ```
-##### Example of custom `Option` validation
-Assuming we need a `CLNumberOption` that takes a value between `0` - `99`, e.g. to specify the age of an human. To validate that the the value is in the given range all we need to do is providing a closure to the `customValidation` property which guards that the value fits in the range.
+##### Example of custom `Command` validation
+Assuming we need a `CLNumberCommand` that takes a value between `0` - `99`, e.g. to specify the age of an human. To validate that the the value is in the given range all we need to do is providing a closure to the `customValidation` property which guards that the value fits in the range.
 
 ```swift
-let ageOption = CLNumberOption(name: "age", help: "Takes all `Int` values from 0 to 99")
+let ageCommand = CLNumberCommand(name: "age", help: "Takes all `Int` values from 0 to 99")
         
-ageOption.customValidation = {_ in
-	if ageOption.value! < 0 || ageOption.value! > 99 {
+ageCommand.customValidation = {_ in
+	if ageCommand.value! < 0 || ageCommand.value! > 99 {
 		return .fail(message: "Value not in range 0 - 99.")
 	} else {
 		return .success
@@ -127,30 +127,30 @@ CommandLineInterface.parseOrExit()
 
 ```
 
-### Options with required arguments
-Each `Option` has the `requiredArguments` property specifying a collection of `Argument`'s that are required by this `Option`. When parsing the `CommandLineInterface` guards the specification of each `Argument` in the collection.
+### Commands with required arguments
+Each `Command` has the `requiredArguments` property specifying a collection of `Argument`'s that are required by this `Command`. When parsing the `CommandLineInterface` guards the specification of each `Argument` in the collection.
 
 ```swift
 ...
 
-let resizeOption = FileOption(name: "resize", help: "Resizes the given image.")
-let stretchHorizontalOption = FileOption(name: "stretchHorizontal", help: "Stretches the given image horizontally.")
+let resizeCommand = FileCommand(name: "resize", help: "Resizes the given image.")
+let stretchHorizontalCommand = FileCommand(name: "stretchHorizontal", help: "Stretches the given image horizontally.")
         
 let widthArgument = NumberArgument(shortFlag: "w", longFlag: "width", help: "The width of the output image")
 let heightArgument = NumberArgument(shortFlag: "h", longFlag: "height", help: "The height of the output image")
         
         
-// The resize option requires a value for both the width and the height argument
-resizeOption.requiredArguments = [widthArgument, heightArgument]
+// The resize command requires a value for both the width and the height argument
+resizeCommand.requiredArguments = [widthArgument, heightArgument]
         
-// The stretch horizontal option requires a value for the width argument
-stretchHorizontalOption.requiredArguments = [widthArgument]
+// The stretch horizontal command requires a value for the width argument
+stretchHorizontalCommand.requiredArguments = [widthArgument]
 
 ...
 ```
 ```
 $ example resize /Users/Bob/Desktop/Image.png -w 200 -h 200
-$ example resize /Users/Bob/Desktop/Image.png -w 200               // FAILS. `resizeOption` needs both `-w` and `-h`
+$ example resize /Users/Bob/Desktop/Image.png -w 200               // FAILS. `resizeCommand` needs both `-w` and `-h`
 $ example resize /Users/Bob/Desktop/Image.png                      // FAILS. None of the required arguments are given
 
 $ example stretchHorizontal /Users/Bob/Desktop/Image.png -w 400
@@ -175,9 +175,9 @@ $ example --num       // FAILS. When naming the `--num` argument, you still need
 
 > `Arguments` providing a default value aren't required anymore due to they always return a valid value for the `value` property.
 
-### Enum options
+### Enum commands
 
-An `EnumOption<T>` takes a case of an enumeration `T` where `T` must be raw representable by `String`.
+An `EnumCommand<T>` takes a case of an enumeration `T` where `T` must be raw representable by `String`.
 
 ```swift
 enum FileAction: String {
@@ -185,15 +185,15 @@ enum FileAction: String {
     case move = "move"
 }
 
-let fileActionOption = EnumOption<FileAction>(name: "fileAction", help: "Does something with files.")
+let fileActionCommand = EnumCommand<FileAction>(name: "fileAction", help: "Does something with files.")
 let fileArgument = FileArgument(longFlag: "file")
 
-fileActionOption.requiredArguments = [fileArgument]
+fileActionCommand.requiredArguments = [fileArgument]
 
-// Will only succeed if `fileActionOption` has a valid case of `FileAction` and the `fileArgument` contains a valid value ...
+// Will only succeed if `fileActionCommand` has a valid case of `FileAction` and the `fileArgument` contains a valid value ...
 CommandLineInterface.parseOrExit()
 
-switch enumOption.value! {
+switch enumCommand.value! {
 case .copy:
     // Copy file specified in `fileArgument.value`
 case .move:
@@ -209,7 +209,7 @@ $ example fileAction move --file /Users/Bob/Documents/Curiculum_Vitae.pdf
 $ example fileAction share --file /Users/Bob/Documents/Curiculum_Vitae.pdf     // FAILS. `share` is not a case of FileAction
 $ example fileAction --file /Users/Bob/Documents/Curiculum_Vitae.pdf           // FAILS. Missing value for `fileAction`
 ```
-> `EnumOption`s are a good way to specify a collection of sub-options of an `Option`.
+> `EnumCommand`s are a good way to specify a collection of sub-commands of an `Command`.
 
 ### Enum Arguments
 
@@ -225,7 +225,7 @@ enum Language: String {
     case turkish
 }
 
-let greetOption = CLStringOption(name: "greet", help: "Greet a person.")
+let greetCommand = CLStringCommand(name: "greet", help: "Greet a person.")
 let languageArgument = EnumArgument<Language>(longFlag: "lang")
 
 // Will only succeed if `languageArgument` has a valid case of `Language` ...
@@ -235,13 +235,13 @@ CommandLineInterface.parseOrExit()
 
 switch languageArgument.value! {
 case .english:
-    print("Hello \(greetOption.value!)")
+    print("Hello \(greetCommand.value!)")
 case .latin:
-    print("Salve \(greetOption.value!)")
+    print("Salve \(greetCommand.value!)")
 case .spanish:
-    print("Hola \(greetOption.value!)")
+    print("Hola \(greetCommand.value!)")
 case .turkish:
-    print("Merhaba \(greetOption.value!)")
+    print("Merhaba \(greetCommand.value!)")
 }
 
 ...
@@ -277,24 +277,24 @@ do {
 CommandLineInterface.parseOrExit()
 
 // You can pass your own collection of arguments to parse ...
-CommandLineInterface.parse(["CLH", "option", "-myArgument", "myValue", "-v"])
+CommandLineInterface.parse(["CLH", "command", "-myArgument", "myValue", "-v"])
 
 ...
 ```
 
 ## Features
 
-### Options Catalog
+### Commands Catalog
 | Type          | Value Type |
 | ------------- |----------- |
-| **`Option`** | |
-| **`CLStringOption`** (`TypedOption<String>`) | `String` |
-| **`CLNumberOption`** (`TypedOption<Int>`) | `Int` |
-| **`CLDecimalOption`** (`TypedOption<Double>`) | `Double` |
-| **`CLBoolOption`** (`TypedOption<Bool>`) | `Bool` |
-| **`EnumOption<T>`** | `T` |
-| **`FileOption`** (`TypedOption<URL>`) | `URL` |
-| **`FolderOption `** (subclass of `FileOption` [=`TypedOption<URL>`] | `URL` |
+| **`Command`** | |
+| **`CLStringCommand`** (`TypedCommand<String>`) | `String` |
+| **`CLNumberCommand`** (`TypedCommand<Int>`) | `Int` |
+| **`CLDecimalCommand`** (`TypedCommand<Double>`) | `Double` |
+| **`CLBoolCommand`** (`TypedCommand<Bool>`) | `Bool` |
+| **`EnumCommand<T>`** | `T` |
+| **`FileCommand`** (`TypedCommand<URL>`) | `URL` |
+| **`FolderCommand `** (subclass of `FileCommand` [=`TypedCommand<URL>`] | `URL` |
 
 ### Arguments Catalog
 | Type | Value Type | About |
@@ -311,28 +311,28 @@ CommandLineInterface.parse(["CLH", "option", "-myArgument", "myValue", "-v"])
 | **`NumberCollectionArgument`** | `[Int]` | Parses the following values into `Int`s. |
 | **`DecimalCollectionArgument`** | `[Double]` | Parses the following arguments into `Double` values. |
 
-### Custom Options and Arguments
+### Custom Commands and Arguments
 
-The easiest way to create your own `Option`s or `Argument`s is to conform the type you want to parse from the command line to the `StringInitializable ` protocol.
+The easiest way to create your own `Command`s or `Argument`s is to conform the type you want to parse from the command line to the `StringInitializable ` protocol.
 
 ```swift
 protocol StringInitializable {
     init?(_ string: String) // Create a new instance with this constructor ...
 }
 ```
-By doing so you can use the build in classes `TypedOption<T: StringInitializable>` and `TypedArgument<T: StringInitializable>` to create a typealias and you are done.
+By doing so you can use the build in classes `TypedCommand<T: StringInitializable>` and `TypedArgument<T: StringInitializable>` to create a typealias and you are done.
 
 ```swift
-// Option
-typealias MyCustomOption = TypedOption<MyCustomType>
+// Command
+typealias MyCustomCommand = TypedCommand<MyCustomType>
 
 // Argument
 typealias MyCustomArgument = TypedArgument<MyCustomType>
 ```
 
-#### Example for a custom Option
+#### Example for a custom Command
 
-For this example we want to create a `FloatOption`. An `Option` that takes a single `Float` value. All we need to do is extend `Float` about the conformance to the `StringInitializable` protocol ...
+For this example we want to create a `FloatCommand`. An `Command` that takes a single `Float` value. All we need to do is extend `Float` about the conformance to the `StringInitializable` protocol ...
 
 ```swift
 // Make Float conform to StringInitializable ...
@@ -343,15 +343,15 @@ extension Float: StringInitializable {
 }
 
 // ... and create a typealias:
-typealias FloatOption = TypedOption<Float>
+typealias FloatCommand = TypedCommand<Float>
 
 ...
 
 // Now you can simply create a new instance ...
-let floatOption = FloatOption(name: "floatOption", help: "Takes `Float` values.")
+let floatCommand = FloatCommand(name: "floatCommand", help: "Takes `Float` values.")
 
 // ... and access the float value via ...
-let floatValue: Float = floatOption.value!
+let floatValue: Float = floatCommand.value!
 ```
 
 ### Configuration
@@ -361,8 +361,8 @@ You can configure the `CommandLineInterface` via the `configuration` property.
 | Configuration | About |
 | :------------ |:---------- |
 | `.printHelpOnExit` | Prints the manual page when `CommandLineInterface`.exit(message:)` is called or the programm runs through without any actions. |
-| `.needsValidOption`| When set the `parseOrExit()` function only passes if a valid `Option` was parsed. |
-| `.printHelpForNoSelection` | When set the manual page is printet when no option could be parsed. |
+| `.needsValidCommand`| When set the `parseOrExit()` function only passes if a valid `Command` was parsed. |
+| `.printHelpForNoSelection` | When set the manual page is printet when no command could be parsed. |
 
 ### Manual Printer
 
@@ -383,7 +383,7 @@ CommandLineInterface.defaul.manualPrinter = {CommandLineInterface in
 
 	var manualContent = "My fancy manual"
             
-	for option in CommandLineInterface.options {
+	for command in CommandLineInterface.commands {
     // add manual information
 		manualContent += ...
 	}

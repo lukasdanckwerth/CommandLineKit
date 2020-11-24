@@ -9,7 +9,7 @@ import Foundation
 
 open class CLConcreteArgument: CLArgumentProtocol {
     
-    /// Custom closure to validate this option.String?
+    /// Custom closure to validate this command.String?
     open var validation: (() -> CLValidationResult)?
     
     /// Short flag of the argument. A `String` in the form of '-{FLAG_CHAR}'
@@ -31,7 +31,7 @@ open class CLConcreteArgument: CLArgumentProtocol {
     ///
     /// - parameter shortFlag:   The short flag of the argument. Nilable
     /// - parameter longFlag:    The long flag of the argument.
-    /// - parameter help: Some help message describing the option. Nilable
+    /// - parameter help: Some help message describing the command. Nilable
     /// - parameter required:    A Boolean value indicating whether this `Argument` is required. Default is `false`.
     /// - parameter autoAdd:     A Boolean value indicating whether this `Argument` is added to the default `CommandLineInterface` on initialization.
     required public init(shortFlag: String? = nil, longFlag: String, help: String? = nil, required: Bool = false) {

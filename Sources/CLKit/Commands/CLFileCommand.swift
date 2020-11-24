@@ -1,5 +1,5 @@
 //
-//  CLFileOption.swift
+//  CLFileCommand.swift
 //  
 //
 //  Created by Lukas Danckwerth on 14.09.20.
@@ -7,21 +7,21 @@
 
 import Foundation
 
-open class CLFileCommand: CLValueCommand<URL> {
+open class CLFileCommand: CLStringInitializableCommand<URL> {
     
     /// A Boolean value indicating whether the file must exists.
     open var isExsitenceRequired: Bool = false
     
-    /// A Boolean value indicating whether this option translates relative to absolute paths.
+    /// A Boolean value indicating whether this command translates relative to absolute paths.
     open var isTransformsRelativeToAbsolute: Bool = true
     
     /// Returns the type of the value ('FILE_PATH') of this argument.
-    override open var valueType: String { return "FILE_PATH" }
+    open var valueType: String { return "FILE_PATH" }
     
     /// Default initialization with the given arguments.
     ///
-    /// - parameter name:             The name of the option.
-    /// - parameter description:      Some help message describing the option.
+    /// - parameter name:             The name of the command.
+    /// - parameter description:      Some help message describing the command.
     /// - parameter requireExistence: A Boolean value indicating whether the file must exist.
     convenience public init(name: String, help: String? = nil, fileExistenceRequired: Bool = false) {
         self.init(name: name, help: help)
@@ -30,9 +30,9 @@ open class CLFileCommand: CLValueCommand<URL> {
     
     /// Validates the given value in raw value can be parsed to the expected type. Returns a `.fail(_)` response for an existend value
     /// or when the raw value can't be parsed.
-    override func parse(rawValue: String) -> CLValidationResult {
+    open override func parse(rawValue: String) -> CLValidationResult {
         var rawValue = rawValue
-        guard value == nil else { return .fail(message: "Single value option '\(name)' already contains a value '\(String(describing: value))'.") }
+        guard value == nil else { return .fail(message: "Single value command '\(name)' already contains a value '\(String(describing: value))'.") }
         if isTransformsRelativeToAbsolute {
             if rawValue.hasPrefix("./") {
                 rawValue.removeFirst(2)
@@ -50,7 +50,7 @@ open class CLFileCommand: CLValueCommand<URL> {
     }
     
     /// Dependant on the `isExsitenceRequired` property this function validates the existence of the file.
-    func validate(value: URL) -> CLValidationResult {
+    open func validate(value: URL) -> CLValidationResult {
         guard isExsitenceRequired else { return .success }
         
         var isDir : ObjCBool = false

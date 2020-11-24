@@ -7,7 +7,7 @@
 
 import Foundation
 
-// MARK: - Option
+// MARK: - Command
 
 @discardableResult
 func + (left: CLInterface, right: CLCommand) -> CLInterface {

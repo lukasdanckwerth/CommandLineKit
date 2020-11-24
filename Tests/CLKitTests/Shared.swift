@@ -32,7 +32,7 @@ extension CLInterface {
         Commands: \(commands)
         Arguments: \(arguments)
         
-        Selected Option: \(String(describing: option))
+        Selected Command: \(String(describing: command))
         Selected Arguments: \(selectedArguments)
         """
     }

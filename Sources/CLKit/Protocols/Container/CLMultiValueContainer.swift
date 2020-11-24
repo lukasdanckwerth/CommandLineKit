@@ -7,13 +7,13 @@
 
 import Foundation
 
-/// Protocol for options and arguments with values.
+/// Protocol for commands and arguments with values.
 protocol CLMultiValueContainer: CLValueContainer {
     
     /// Associated type.
     associatedtype ValueType
     
-    /// The value of this option.
+    /// The value of this command.
     var values: [ValueType] { get set }
     
 }

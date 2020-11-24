@@ -7,11 +7,11 @@
 
 import Foundation
 
-/// Protocol for options and arguments with values.
+/// Protocol for commands and arguments with values.
 ///
-protocol CLValueContainer {
+public protocol CLValueContainer {
     
-    /// Returns the type of the value of this option.
+    /// Returns the type of the value of this command.
     ///
     var valueType: String { get }
     
@@ -26,7 +26,6 @@ extension CLValueContainer {
     /// Returns `true` if the receiver contains a value in the `defaultValue` property.  Will
     /// return `false` if the property is `nil`.
     ///
-    func containsDefaultValue() -> Bool where Self: CLTypeValueContainer {
-        return self.defaultValue != nil
-    }
+    var containsDefaultValue: Bool { false }
+    
 }

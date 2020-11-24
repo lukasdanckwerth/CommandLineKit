@@ -6,7 +6,7 @@ public func allTests() -> [XCTestCaseEntry] {
         testCase(TestArguments.allTests),
         testCase(TestArgumentsInvalidValues.allTests),
         testCase(TestConfiguation.allTests),
-        testCase(TestOptions.allTests),
+        testCase(TestCommands.allTests),
         testCase(TextInfixOperators.allTests)
     ]
 }

@@ -29,10 +29,10 @@ extension CLInterface {
         set { CLInterface.default.name = newValue }
     }
     
-    /// The selected option parsed from the command line. May be `nil`.
-    public static var option: CLCommand! {
-        get { return CLInterface.default.option }
-        set { CLInterface.default.option = newValue }
+    /// The selected command parsed from the command line. May be `nil`.
+    public static var command: CLCommand! {
+        get { return CLInterface.default.command }
+        set { CLInterface.default.command = newValue }
     }
     
     /// The defaults interface configuration.
@@ -44,8 +44,8 @@ extension CLInterface {
     // MARK: - Parse
     
     /// Prints the generated help page for this command line tool.
-    public static func printHelp() {
-        CLInterface.default.printHelp()
+    public static func printManual() {
+        CLInterface.default.printManual()
     }
     
     /// Parses the arguments from the command line given in `CommandLine.arguments` and dies with an error message.

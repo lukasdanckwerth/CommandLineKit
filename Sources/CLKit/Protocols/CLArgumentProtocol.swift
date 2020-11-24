@@ -15,7 +15,7 @@ public protocol CLArgumentProtocol: CLValidateable, Equatable, CustomStringConve
     /// Long flag of the argument. A `String` in the form of '--{FLAG_NAME}'.
     var longFlag: String { get set }
     
-    /// Describes the effect of this option.
+    /// Describes the effect of this command.
     var help: String? { get set }
     
     /// A Boolean value indicating whether this argument is required.
@@ -25,7 +25,7 @@ public protocol CLArgumentProtocol: CLValidateable, Equatable, CustomStringConve
     ///
     /// - parameter shortFlag:   The short flag of the argument.
     /// - parameter longFlag:    The long flag of the argument.
-    /// - parameter help:        Some help message describing the option.
+    /// - parameter help:        Some help message describing the command.
     /// - parameter required:    A Boolean value indicating whether this argument is required.
     init(shortFlag: String?, longFlag: String, help: String?, required: Bool)
     

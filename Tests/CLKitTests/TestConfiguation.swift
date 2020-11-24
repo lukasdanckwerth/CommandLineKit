@@ -67,4 +67,46 @@ class TestConfiguation: XCTestCase {
             }
         }
     }
+    
+    func testConfigFailOnMissingCommand() {
+        let config: CLConfiguration = .failOnMissingCommand
+        let interface = CLInterface(name: "default", configuration: config)
+        let rawArguments: [String] = ["default"]
+        do {
+            try interface.parse(rawArguments)
+        } catch CLInterfaceError.noCommandSelected {
+            XCTAssert(true)
+        } catch {
+            XCTFail("Parsing should throw an `.noCommandSelected` error.")
+        }
+    }
+    
+    func testConfigAllowUnknownArguments() {
+        
+        let config: CLConfiguration = .allowUnknownArguments
+        let interface = CLInterface(name: "default", configuration: config)
+        
+        do {
+            try interface.parse(["default", "anUnknownArgument", "anotherUnknownArgument"])
+        } catch {
+            XCTFail("Parsing should succeed. \(error.localizedDescription)")
+        }
+        
+        XCTAssertTrue(interface.unparsedArguments.contains("anUnknownArgument"),
+                      "Collection of unparsedArguments should contain \"anUnknownArgument\".")
+        XCTAssertTrue(interface.unparsedArguments.contains("anotherUnknownArgument"),
+                      "Collection of unparsedArguments should contain \"anotherUnknownArgument\".")
+        
+        
+        let config2: CLConfiguration = []
+        let interface2 = CLInterface(name: "default", configuration: config2)
+        
+        do {
+            try interface2.parse(["default", "anUnknownArgument", "anotherUnknownArgument"])
+        } catch CLInterfaceError.unknownArgument(_) {
+            XCTAssert(true)
+        } catch {
+            XCTFail("Parsing should throw an `.unknownArgument` error.")
+        }
+    }
 }

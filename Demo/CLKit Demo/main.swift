@@ -16,9 +16,9 @@ let demoTool = CLInterface(
     configuration: .printHelpForNoSelection
 )
 
-let helloOption = CLStringOption(name: "hello", helpMessage: "prints a welcome message")
-let helloOption2 = CLStringOption(name: "hello", helpMessage: "prints a welcome message")
-demoTool.options = [helloOption, helloOption2]
+let helloCommand = CLStringCommand(name: "hello", helpMessage: "prints a welcome message")
+let helloCommand2 = CLStringCommand(name: "hello", helpMessage: "prints a welcome message")
+demoTool.commands = [helloCommand, helloCommand2]
 
 demoTool.printHelp()
 demoTool.parseOrExit()

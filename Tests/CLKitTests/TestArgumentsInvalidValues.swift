@@ -60,7 +60,7 @@ class TestArgumentsInvalidValues: XCTestCase {
         
     }
     
-    func wrapTryCatchForNoValueParsedError<Type>(args: [String], argumentWithMissingValue: CLTypeArgument<Type>) {
+    func wrapTryCatchForNoValueParsedError<Type>(args: [String], argumentWithMissingValue: CLStringInitializableArgument<Type>) {
         do {
             try CLInterface.parse(args) // Should fail!
             XCTFail("""
@@ -70,12 +70,12 @@ class TestArgumentsInvalidValues: XCTestCase {
                 """)
         } catch let error {
             
-            guard let error = error as? CLInterface.CLInterfaceError else {
+            guard let error = error as? CLInterfaceError else {
                 XCTFail("Error not a CLInterfaceError"); return
             }
             
             switch error {
-            case CLInterface.CLInterfaceError.missingRequiredArgumentValue(let argument):
+            case CLInterfaceError.missingRequiredArgumentValue(let argument):
                 XCTAssert(argument == argumentWithMissingValue)
             default:
                 XCTFail("""
@@ -106,20 +106,20 @@ class TestArgumentsInvalidValues: XCTestCase {
         }
     }
     
-    func wrapTryCatchForNoValidValueError<Type>(args: [String], argumentWithInvalidValue: CLTypeArgument<Type>) {
+    func wrapTryCatchForNoValidValueError<Type>(args: [String], argumentWithInvalidValue: CLStringInitializableArgument<Type>) {
         do {
             try CLInterface.parse(args) // Should fail!
             XCTFail("Parsing value \(String(describing: argumentWithInvalidValue.value)) for \(argumentWithInvalidValue) should fail")
         } catch let error {
             
-            guard let error = error as? CLInterface.CLInterfaceError else {
+            guard let error = error as? CLInterfaceError else {
                 XCTFail("Error not a CLInterfaceError"); return
             }
             
             switch error {
-            case CLInterface.CLInterfaceError.missingRequiredArgumentValue(let argument):
+            case CLInterfaceError.missingRequiredArgumentValue(let argument):
                 XCTAssert(argument == argumentWithInvalidValue)
-            case CLInterface.CLInterfaceError.parseArgumentFailure(let argument, let message):
+            case CLInterfaceError.parseArgumentFailure(let argument, let message):
                 print(message)
                 XCTAssert(argument == argumentWithInvalidValue)
             default:

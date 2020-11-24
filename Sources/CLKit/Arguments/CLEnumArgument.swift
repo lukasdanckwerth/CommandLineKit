@@ -11,24 +11,25 @@ import Foundation
 open class CLEnumArgument<EnumType: RawRepresentable>: CLConcreteArgument, CLTypeValueContainer where EnumType.RawValue == String, EnumType: Hashable {
     
     /// Typealias for the `TypedValueable` protocol.
-    typealias ValueType = EnumType
+    public typealias ValueType = EnumType
     
     /// The underlying internal value of this argument.
     internal var internalValue: EnumType?
     
+    
+    /// The default value of this command.
+    internal var internalDefaultValue: Any?
+    
     /// The value of the argument.
     open var value: EnumType! {
-        get { return internalValue ?? defaultValue }
+        get { return internalValue ?? internalDefaultValue as? EnumType }
         set { internalValue = newValue }
     }
-    
-    /// The default value of this option.
-    open var defaulValue: Any?
-    
+
     /// The default value of the argument.
     open var defaultValue: EnumType? {
-        get { return defaulValue as? EnumType }
-        set { defaulValue = newValue }
+        get { return internalDefaultValue as? EnumType }
+        set { internalDefaultValue = newValue }
     }
     
     /// Returns the type of the value of this argument.

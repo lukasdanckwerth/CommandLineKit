@@ -7,14 +7,14 @@
 
 import Foundation
 
-/// Option for Folders.
+/// Command for Folders.
 open class CLFolderCommand: CLFileCommand {
     
     /// Returns the type of the value ('FOLDER_PATH') of this argument.
     override open var valueType: String { return "FOLDER_PATH" }
     
     /// Dependant on the `isExsitenceRequired` property this function validates the existence of the file.
-    override func validate(value: URL) -> CLValidationResult {
+    override open func validate(value: URL) -> CLValidationResult {
         guard isExsitenceRequired else { return .success }
         
         var isDir : ObjCBool = false

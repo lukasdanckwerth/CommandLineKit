@@ -16,7 +16,7 @@ open class CLFileArgument: URLArgument {
     /// Returns the type of the value ('FILE_PATH') of this argument.
     override open var valueType: String { return "FILE_PATH" }
     
-    override func parse(rawValue: String) -> CLValidationResult {
+    override public func parse(rawValue: String) -> CLValidationResult {
         var rawValue = rawValue
         guard internalValue == nil else { return .fail(message: "Single value argument '\(longFlag)' already contains a value '\(String(describing: value))'.") }
         if rawValue.hasPrefix("./") {

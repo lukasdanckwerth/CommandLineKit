@@ -78,9 +78,9 @@ open class CLInterface {
         })
     }
     
-    /// The selected option parsed from the command line.  May be `nil`.
+    /// The selected command parsed from the command line.  May be `nil`.
     ///
-    open var option: CLCommand!
+    open var command: CLCommand!
     
     /// The selected arguments parsed from the command line.
     ///
@@ -91,7 +91,7 @@ open class CLInterface {
     /// Contains the raw arguments as received from the `parse(_ rawArguments: [String])` function.
     internal(set) public var rawArguments: [String]?
     
-    /// After calling `parse()`, this property will contain any values that weren't captured by an `Option` or `Argument`.
+    /// After calling `parse()`, this property will contain any values that weren't captured by an `Command` or `Argument`.
     internal(set) public lazy var unparsedArguments: [String] = []
     
     
@@ -116,34 +116,4 @@ open class CLInterface {
         self.about = about
         self.configuration = configuration
     }
-    
-    /// Prints the given message and exits the programm.
-    ///
-    /// - argument message:      The message to pring before exit.
-    /// - argument printHelp:  Boolean value indication whether to print the help page before exit.
-    /// - argument exitCode:     The exit code wich will be used as a parameter for the `Foundation.exit(int)` function.
-    public static func exit(_ message: String, printHelp: Bool = false, exitCode: Int32 = EXIT_SUCCESS) -> Never {
-        Swift.print(exitCode == EXIT_FAILURE ? "Error: \(message)\n" : "\(message)\n")
-        if printHelp || configuration.contains(.printManualOnFailure) { self.printHelp() }
-        Foundation.exit(exitCode)
-    }
-    
-    /// Print a message for the given error and exits the command line tool.
-    ///
-    /// - argument withError:    The error that leads to the exit of the command line tool.
-    /// - argument printHelp:  Boolean value indication whether to print the help page before exit.
-    public static func exit(withError error: Error, printHelp flag: Bool = false) -> Never {
-        guard let commandLineInterfaceError = error as? CLInterfaceError else {
-            exit("\(error)", printHelp: flag)
-        }
-        
-        switch commandLineInterfaceError {
-        case .noOptionSelected:
-            exit("No option selected.", printHelp: flag || configuration.contains(.printManualOnNoSelection))
-        default:
-            exit(error.localizedDescription, printHelp: flag)
-        }
-    }
 }
-
-public typealias CLSelector = String

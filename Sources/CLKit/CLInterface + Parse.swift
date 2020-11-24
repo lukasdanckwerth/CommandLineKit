@@ -25,79 +25,62 @@ extension CLInterface {
     /// - argument rawArguments: The raw arguments to parse.
     open func parse(_ rawArguments: [String] = CommandLine.arguments) throws {
         
-        if configuration.contains(.failOnMissingOption), rawArguments.count <= 1 {
-            throw CLInterfaceError.noOptionSelected
-        }
+        self.rawArguments = rawArguments
+        
+        
         
         // guard the existance of at least one more argument than the programm path.
         guard rawArguments.count > 1 else { return }
         
-        self.rawArguments = rawArguments
-        
         // clear any old selection
-        option = nil
+        command = nil
         selectedArguments = []
         unparsedArguments = []
         
         // index for iterating through the raw arguments
         var index = 1
         
-        // check for possible option first
-        if rawArguments.count > index {
+        let commandNameCandidate = rawArguments[index]
+        
+        if let command = self.command(for: commandNameCandidate) {
             
-            let optionNameCandidate = rawArguments[index]
+            index += 1
             
-            for option in commands {
+            // Guard there is not command already set. This actually should never happen.
+            guard self.command == nil else {
+                throw CLInterfaceError.multipleCommandsSelected(command1: command, command2: command)
+            }
+            
+            self.command = command
+            
+            if let valueContainer = command as? CLValueContainer {
                 
-                if option.name == optionNameCandidate {
+                if rawArguments.valid(index: index) {
                     
-                    // Guard there is not option already set. This actually should never happen.
-                    guard self.option == nil else {
-                        throw CLInterfaceError.multipleOptionsSelected(option1: option, option2: option)
-                    }
-                    self.option = option
+                    let commandValueCandidate = rawArguments[index]
                     
-                    if let valueableOption = option as? CLValueContainer {
-                        
-                        if (index + 1) < rawArguments.count {
-                            
-                            index += 1
-                            let optionValue = rawArguments[index]
-                            guard !allPossibleArgumentNames.contains(optionValue) else {
-                                throw CLInterfaceError.missingRequiredOptionValue(option: option)
-                            }
-                            
-                            // Validate the set value.
-                            let validationResult = valueableOption.parse(rawValue: optionValue)
-                            
-                            switch validationResult {
-                            case .success:
-                                break
-                            case .fail(let message):
-                                throw CLInterfaceError.parseOptionFailure(option: option, message: message)
-                            }
-                            
-                        } else if option.containsDefaultValue() == true {
-                            // empty
-                        } else {
-                            throw CLInterfaceError.parseOptionFailure(
-                                option: option,
-                                message: "Missing required value for option '\(option.name)'."
-                            )
-                        }
+                    // parse command value
+                    let validationResult = valueContainer.parse(rawValue: commandValueCandidate)
+                    
+                    switch validationResult {
+                    case .success:
+                        break
+                    case .fail(let message):
+                        throw CLInterfaceError.parseCommandFailure(command: command, message: message)
                     }
                     
                     index += 1
-                    break
+                    
+                } else if command.containsDefaultValue == false {
+                    throw CLInterfaceError.parseCommandFailure(
+                        command: command,
+                        message: "Missing required value for command '\(command.name)'."
+                    )
                 }
             }
-        } else {
-            throw CLInterfaceError.noOptionSelected
-        }
-        
-        // guard no valid option is needed or we got a valid one.
-        guard !configuration.contains(.failOnMissingOption) || option != nil else {
-            throw CLInterfaceError.noOptionSelected
+            
+        } else if configuration.contains(.failOnMissingCommand) {
+            throw CLInterfaceError.noCommandSelected
         }
         
         while index < rawArguments.count {
@@ -106,11 +89,12 @@ extension CLInterface {
             
             if let parsedArgument = try parseArgument(token: token, at: &index, ofArguments: rawArguments) {
                 selectedArguments.append(parsedArgument)
-            } else if token.hasPrefix("-"), !token.hasPrefix("--") {
-                
-                for char in token.replacingOccurrences(of: "-", with: "") {
+            }
+            
+            else if token.hasPrefix(CLInterface.prefixShortFlag), !token.hasPrefix(CLInterface.prefixLongFlag) {
+                for char in token.replacingOccurrences(of: CLInterface.prefixShortFlag, with: "") {
                     
-                    if let parsedArgument = try parseArgument(token: "-\(char)", at: &index, ofArguments: rawArguments) {
+                    if let parsedArgument = try parseArgument(token: "\(CLInterface.prefixShortFlag)\(char)", at: &index, ofArguments: rawArguments) {
                         selectedArguments.append(parsedArgument)
                     } else {
                         throw CLInterfaceError.unknownArgument(rawArgument: token)
@@ -132,56 +116,52 @@ extension CLInterface {
     
     private func parseArgument(token: String, at index: inout Int, ofArguments arguments: [String]) throws -> CLConcreteArgument? {
         
-        for argument in self.arguments {
+        guard let argument = self.argument(for: token) else { return nil }
+        argument.isSelected = true
+        
+        if let valuedArgument = argument as? CLValueContainer {
             
-            // Check for a valid token.
-            if (argument.shortFlag == token || argument.longFlag == token) {
+            try validateNextItem(atIndex: index, inArray: arguments, argument: argument)
+            
+            // Counter that guards at least one token has been ate ...
+            var foundValues = 0
+            
+            while arguments.valid(index: index + 1) && self.argument(for: arguments[index + 1]) == nil {
                 
-                if let valuedArgument = argument as? CLValueContainer {
-                    
-                    try validateNextItem(atIndex: index, inArray: arguments, argument: argument)
-                    // Counter that guards at least one token has been ate ...
-                    var foundValues = 0
-                    
-                    while (index + 1) < arguments.count && !allPossibleArgumentNames.contains(arguments[index + 1]) {
-                        index += 1
-                        
-                        // Validate the token can be parsed ...
-                        let parseValidationResult = valuedArgument.parse(rawValue: arguments[index])
-                        
-                        switch parseValidationResult {
-                        case .success:
-                            break // Nothing to do
-                        case .fail(let message):
-                            throw CLInterfaceError.parseArgumentFailure(argument: argument, message: message)
-                        }
-                        foundValues += 1
-                    }
-                    
-                    guard foundValues > 0 else {
-                        throw CLInterfaceError.missingRequiredArgumentValue(argument: argument)
-                    }
+                index += 1
+                
+                // Validate the token can be parsed ...
+                let parseValidationResult = valuedArgument.parse(rawValue: arguments[index])
+                
+                switch parseValidationResult {
+                case .success:
+                    break // Nothing to do
+                case .fail(let message):
+                    throw CLInterfaceError.parseArgumentFailure(argument: argument, message: message)
                 }
                 
-                argument.isSelected = true
-                
-                return argument
+                foundValues += 1
+            }
+            
+            guard foundValues > 0 else {
+                throw CLInterfaceError.missingRequiredArgumentValue(argument: argument)
             }
         }
-        return nil
+        
+        return argument
     }
     
-    /// Guards the possible selected option passes its validation if any existing and iterates through
+    /// Guards the possible selected command passes its validation if any existing and iterates through
     /// the arguments and validates that every required argument has a valid value.
     private func validate() throws {
         
-        if let requiredArguments = option?.requiredArguments {
+        if let requiredArguments = command?.requiredArguments {
             for requiredArgument in requiredArguments {
                 
                 guard selectedArguments.contains(requiredArgument)
-                        || (requiredArgument as? CLValueContainer)?.defaultValue != nil else {
+                        || (requiredArgument as? CLValueContainer)?.containsDefaultValue == true else {
                     throw CLInterfaceError.missingRequiredArgument(
-                        option: option!,
+                        command: command!,
                         argument: requiredArgument
                     )
                 }
@@ -195,13 +175,13 @@ extension CLInterface {
             }
         }
         
-        // if there is a custom option validation guard it passes successfully.
-        if let customValidation = option?.validation {
+        // if there is a custom command validation guard it passes successfully.
+        if let customValidation = command?.validation {
             switch customValidation() {
             case .success:
                 break
             case .fail(let message):
-                throw CLInterfaceError.optionValidationFailure(option: option, message: message)
+                throw CLInterfaceError.commandValidationFailure(command: command, message: message)
             }
         }
         
@@ -224,27 +204,31 @@ extension CLInterface {
         do { try parse() }
         catch let error { CLInterface.exit(
             withError: error,
-            printHelp: CLInterface.default.configuration.contains(.printManualOnFailure))
+            printManual: CLInterface.default.configuration.contains(.printManualOnFailure))
         }
     }
     
     /// Returns the `CLCommand` for the given selector.
     ///
-    public func command(for selector: CLSelector) -> CLCommand? {
+    public func command(for selector: String) -> CLCommand? {
         return commands.first(where: { $0.name == selector })
     }
     
     /// Returns the `CLConcreteArgument` for the given selector.
     ///
-    public func argument(for selector: CLSelector) -> CLConcreteArgument? {
+    public func argument(for selector: String) -> CLConcreteArgument? {
         return arguments.first(where: { $0.longFlag == selector || $0.shortFlag == selector })
     }
     
-//    public func optionValue<Value>(for selector: CLSelector) -> Value? where CLTypeValueContainer.ValueType == Value {
-//        return (option(for: selector) as? CLTypeValueContainer)?.value
-//    }
-//
-//    public func argumentValue<Value>(for selector: CLSelector) -> Value? where CLTypeValueContainer.ValueType == Value {
-//        return (argument(for: selector) as? CLTypeValueContainer)?.value
-//    }
+    //    public func commandValue<Value>(for selector: CLSelector) -> Value? where CLTypeValueContainer.ValueType == Value {
+    //        return (command(for: selector) as? CLTypeValueContainer)?.value
+    //    }
+    //
+    //    public func argumentValue<Value>(for selector: CLSelector) -> Value? where CLTypeValueContainer.ValueType == Value {
+    //        return (argument(for: selector) as? CLTypeValueContainer)?.value
+    //    }
+}
+
+internal extension Array {
+    func valid(index: Int) -> Bool { index > 0 && index < count }
 }

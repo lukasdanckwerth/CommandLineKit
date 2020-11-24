@@ -14,6 +14,7 @@ public protocol CLStringInitializable {
     /// Initializes this value from the given string argument.
     ///
     init?(_ string: String)
+    
 }
 
 /// Make `int` suitable to the `CLStringInitializable` protocol.

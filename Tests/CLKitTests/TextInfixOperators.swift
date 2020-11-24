@@ -21,21 +21,21 @@ class TextInfixOperators: XCTestCase {
         
         var interface = CLInterface()
         
-        // MARK: - Options
+        // MARK: - Commands
         
-        interface + CLStringCommand(name: "option1", help: nil)
-        interface + CLStringCommand(name: "option2", help: nil)
-        interface + CLStringCommand(name: "option3", help: nil)
+        interface + CLStringCommand(name: "command1", help: nil)
+        interface + CLStringCommand(name: "command2", help: nil)
+        interface + CLStringCommand(name: "command3", help: nil)
         
-        XCTAssertFalse(interface.commands.isEmpty, "Expecting options collection to be NOT empty.")
-        XCTAssertEqual(interface.commands.count, 3, "Expecting collection of options to contain 3 items.")
+        XCTAssertFalse(interface.commands.isEmpty, "Expecting commands collection to be NOT empty.")
+        XCTAssertEqual(interface.commands.count, 3, "Expecting collection of commands to contain 3 items.")
         
         interface = interface + [
-            CLStringCommand(name: "option4", help: nil),
-            CLStringCommand(name: "option5", help: nil)
+            CLStringCommand(name: "command4", help: nil),
+            CLStringCommand(name: "command5", help: nil)
         ]
         
-        XCTAssertEqual(interface.commands.count, 5, "Expecting collection of options to contain 5 items.")
+        XCTAssertEqual(interface.commands.count, 5, "Expecting collection of commands to contain 5 items.")
         
         
         // MARK: - Arguments
