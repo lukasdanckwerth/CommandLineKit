@@ -7,14 +7,14 @@
 
 import Foundation
 
-open class CLConcreteOption: CLOption, CLValidateable {
+open class CLConcreteOption: CLCommandProtocol, CLValidateable {
     
     public var description: String {
         return "Option[name=\(name)]"
     }
     
     /// Custom closure to validate this option.
-    open var customValidation: (() -> CLValidationResult)?
+    open var validation: (() -> CLValidationResult)?
     
     /// The name (and selector) of this option.
     open var name: String

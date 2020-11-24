@@ -33,8 +33,8 @@
 
 ```swift
 let option = Option(name: "option", help: "Does some fancy stuff.")
-let stringOption = StringOption(name: "stringOption", help: "Takes a String value.")
-let numberOption = NumberOption(name: "numberOption", help: "Takes an Int value.")
+let stringOption = CLStringOption(name: "stringOption", help: "Takes a String value.")
+let numberOption = CLNumberOption(name: "numberOption", help: "Takes an Int value.")
 
 CommandLineInterface.parseOrExit() // Would `exit(EXIT_FAILURE)` if parsing throws an exception ...
 
@@ -89,10 +89,10 @@ public enum ValidationResult {
 }
 ```
 ##### Example of custom `Option` validation
-Assuming we need a `NumberOption` that takes a value between `0` - `99`, e.g. to specify the age of an human. To validate that the the value is in the given range all we need to do is providing a closure to the `customValidation` property which guards that the value fits in the range.
+Assuming we need a `CLNumberOption` that takes a value between `0` - `99`, e.g. to specify the age of an human. To validate that the the value is in the given range all we need to do is providing a closure to the `customValidation` property which guards that the value fits in the range.
 
 ```swift
-let ageOption = NumberOption(name: "age", help: "Takes all `Int` values from 0 to 99")
+let ageOption = CLNumberOption(name: "age", help: "Takes all `Int` values from 0 to 99")
         
 ageOption.customValidation = {_ in
 	if ageOption.value! < 0 || ageOption.value! > 99 {
@@ -225,7 +225,7 @@ enum Language: String {
     case turkish
 }
 
-let greetOption = StringOption(name: "greet", help: "Greet a person.")
+let greetOption = CLStringOption(name: "greet", help: "Greet a person.")
 let languageArgument = EnumArgument<Language>(longFlag: "lang")
 
 // Will only succeed if `languageArgument` has a valid case of `Language` ...
@@ -288,10 +288,10 @@ CommandLineInterface.parse(["CLH", "option", "-myArgument", "myValue", "-v"])
 | Type          | Value Type |
 | ------------- |----------- |
 | **`Option`** | |
-| **`StringOption`** (`TypedOption<String>`) | `String` |
-| **`NumberOption`** (`TypedOption<Int>`) | `Int` |
-| **`DecimalOption`** (`TypedOption<Double>`) | `Double` |
-| **`BoolOption`** (`TypedOption<Bool>`) | `Bool` |
+| **`CLStringOption`** (`TypedOption<String>`) | `String` |
+| **`CLNumberOption`** (`TypedOption<Int>`) | `Int` |
+| **`CLDecimalOption`** (`TypedOption<Double>`) | `Double` |
+| **`CLBoolOption`** (`TypedOption<Bool>`) | `Bool` |
 | **`EnumOption<T>`** | `T` |
 | **`FileOption`** (`TypedOption<URL>`) | `URL` |
 | **`FolderOption `** (subclass of `FileOption` [=`TypedOption<URL>`] | `URL` |

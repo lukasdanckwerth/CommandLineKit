@@ -1,5 +1,5 @@
 //
-//  CLArgument.swift
+//  CLArgumentProtocol.swift
 //  
 //
 //  Created by Lukas Danckwerth on 14.09.20.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol CLArgument: Equatable, CustomStringConvertible {
+public protocol CLArgumentProtocol: CLValidateable, Equatable, CustomStringConvertible {
     
     /// Short flag of the argument. A `String` in the form of '-{FLAG_CHAR}'
     var shortFlag: String? { get set }
@@ -16,7 +16,7 @@ public protocol CLArgument: Equatable, CustomStringConvertible {
     var longFlag: String { get set }
     
     /// Describes the effect of this option.
-    var helpMessage: String? { get set }
+    var help: String? { get set }
     
     /// A Boolean value indicating whether this argument is required.
     var isRequired: Bool { get set }

@@ -1,5 +1,5 @@
 //
-//  CLOption.swift
+//  CLCommandProtocol.swift
 //  
 //
 //  Created by Lukas Danckwerth on 31.05.20.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol CLOption: Equatable, CustomStringConvertible {
+public protocol CLCommandProtocol: CLValidateable, Equatable, CustomStringConvertible {
     
     /// The name (and selector) of this option.
     var name: String { get set }

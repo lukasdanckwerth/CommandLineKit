@@ -40,7 +40,7 @@ class TestOptions: XCTestCase {
         
         for rawValue in ["-1", "0", "ab", "AB", "::"] {
             
-            let stringOption = StringOption(name: "stringOption")
+            let stringOption = CLStringOption(name: "stringOption")
             
             switch stringOption.parse(rawValue: rawValue) {
             case .fail(let message): XCTFail(message)
@@ -56,13 +56,13 @@ class TestOptions: XCTestCase {
         CLInterface.reset()
         
         let option = CLConcreteOption(name: "option")
-        let stringOption = StringOption(name: "stringOption")
-        let numberOption = NumberOption(name: "numberOption")
-        let negNumberOption = NumberOption(name: "negNumberOption")
-        let decimalOption = DecimalOption(name: "decimalOption")
-        let negDecimalOption = DecimalOption(name: "negDecimalOption")
-        let boolOption = BoolOption(name: "boolOption")
-        let negBoolOption = BoolOption(name: "negBoolOption")
+        let stringOption = CLStringOption(name: "stringOption")
+        let numberOption = CLNumberOption(name: "numberOption")
+        let negCLNumberOption = CLNumberOption(name: "negCLNumberOption")
+        let decimalOption = CLDecimalOption(name: "decimalOption")
+        let negCLDecimalOption = CLDecimalOption(name: "negCLDecimalOption")
+        let boolOption = CLBoolOption(name: "boolOption")
+        let negCLBoolOption = CLBoolOption(name: "negCLBoolOption")
         let enumOption = CLEnumOption<Suboption>(name: "enumOption")
         
         CLInterface.name = "TestCLT"
@@ -117,12 +117,12 @@ class TestOptions: XCTestCase {
         } catch let error { XCTFail(error.localizedDescription) }
         
         do {
-            try CLInterface.parse(["TestCLT", "negNumberOption", "-123456"]) // Should succeed
-            guard CLInterface.option == negNumberOption else {
-                XCTFail("Selected option '\(String(describing: CLInterface.option))' not like expected 'negNumberOption'."); return
+            try CLInterface.parse(["TestCLT", "negCLNumberOption", "-123456"]) // Should succeed
+            guard CLInterface.option == negCLNumberOption else {
+                XCTFail("Selected option '\(String(describing: CLInterface.option))' not like expected 'negCLNumberOption'."); return
             }
-            guard negNumberOption.value == -123456 else {
-                XCTFail("Error parsing value 'negNumberOption'."); return
+            guard negCLNumberOption.value == -123456 else {
+                XCTFail("Error parsing value 'negCLNumberOption'."); return
             }
         } catch let error { XCTFail(error.localizedDescription) }
         
@@ -137,12 +137,12 @@ class TestOptions: XCTestCase {
         } catch { XCTFail(error.localizedDescription) }
         
         do {
-            try CLInterface.parse(["TestCLT", "negDecimalOption", "-12.3456"]) // Should succeed
-            guard CLInterface.option == negDecimalOption else {
-                XCTFail("Selected option '\(String(describing: CLInterface.option))' not like expected 'negDecimalOption'."); return
+            try CLInterface.parse(["TestCLT", "negCLDecimalOption", "-12.3456"]) // Should succeed
+            guard CLInterface.option == negCLDecimalOption else {
+                XCTFail("Selected option '\(String(describing: CLInterface.option))' not like expected 'negCLDecimalOption'."); return
             }
-            guard negDecimalOption.value == -12.3456 else {
-                XCTFail("Error parsing value 'negDecimalOption'."); return
+            guard negCLDecimalOption.value == -12.3456 else {
+                XCTFail("Error parsing value 'negCLDecimalOption'."); return
             }
         } catch let error { XCTFail(error.localizedDescription) }
         
@@ -157,12 +157,12 @@ class TestOptions: XCTestCase {
         } catch let error { XCTFail(error.localizedDescription) }
         
         do {
-            try CLInterface.parse(["TestCLT", "negBoolOption", "false"]) // Should succeed
-            guard CLInterface.option == negBoolOption else {
-                XCTFail("Selected option '\(String(describing: CLInterface.option))' not like expected 'negBoolOption'."); return
+            try CLInterface.parse(["TestCLT", "negCLBoolOption", "false"]) // Should succeed
+            guard CLInterface.option == negCLBoolOption else {
+                XCTFail("Selected option '\(String(describing: CLInterface.option))' not like expected 'negCLBoolOption'."); return
             }
-            guard negBoolOption.value == false else {
-                XCTFail("Error parsing value 'negBoolOption'."); return
+            guard negCLBoolOption.value == false else {
+                XCTFail("Error parsing value 'negCLBoolOption'."); return
             }
         } catch let error { XCTFail(error.localizedDescription) }
         
@@ -213,9 +213,9 @@ class TestOptions: XCTestCase {
             CLInterface.reset()
             
             let unpermittedValues = [1, 2, 3, 4, 5, 6]
-            let intOption = NumberOption(name: "intOption", helpMessage: "Takes all int values except of [1, 2, 3, 4, 5, 6].")
+            let intOption = CLNumberOption(name: "intOption", helpMessage: "Takes all int values except of [1, 2, 3, 4, 5, 6].")
             
-            intOption.customValidation = {
+            intOption.validation = {
                 
                 if unpermittedValues.contains(intOption.value!) {
                     return .fail(message: "Value is in unpermitted range [1, 2, 3, 4, 5, 6].")
@@ -250,8 +250,8 @@ class TestOptions: XCTestCase {
     
     func testRequirements() {
         
-        let resizeOption = StringOption(name: "resize", helpMessage: "Resizes the given image.")
-        let stretchHorizontalOption = StringOption(name: "stretchHorizontal", helpMessage: "Stretches the given image horizontally.")
+        let resizeOption = CLStringOption(name: "resize", helpMessage: "Resizes the given image.")
+        let stretchHorizontalOption = CLStringOption(name: "stretchHorizontal", helpMessage: "Stretches the given image horizontally.")
         
         let widthArgument = NumberArgument(shortFlag: "w", longFlag: "width", help: "The width of the output image")
         let heightArgument = NumberArgument(shortFlag: "h", longFlag: "height", help: "The height of the output image")

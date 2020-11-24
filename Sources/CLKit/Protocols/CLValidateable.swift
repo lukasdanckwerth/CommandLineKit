@@ -9,10 +9,10 @@ import Foundation
 
 /// Protocol for validation.
 ///
-protocol CLValidateable {
+public protocol CLValidateable {
     
     /// Custom closure to validate the `CLValidateable`.
     ///
-    var customValidation: (() -> CLValidationResult)? { get set }
+    var validation: (() -> CLValidationResult)? { get set }
     
 }

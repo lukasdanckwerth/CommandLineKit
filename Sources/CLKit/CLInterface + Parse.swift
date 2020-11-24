@@ -195,7 +195,7 @@ extension CLInterface {
         }
         
         // if there is a custom option validation guard it passes successfully.
-        if let customValidation = option?.customValidation {
+        if let customValidation = option?.validation {
             switch customValidation() {
             case .success:
                 break
@@ -206,7 +206,7 @@ extension CLInterface {
         
         // check custom validation on selected arguments
         for argument in selectedArguments {
-            if let customValidation = argument.customValidation {
+            if let customValidation = argument.validation {
                 switch customValidation() {
                 case .success:
                     break
@@ -239,11 +239,11 @@ extension CLInterface {
         return arguments.first(where: { $0.longFlag == selector || $0.shortFlag == selector })
     }
     
-    public func optionValue<Value>(for selector: CLSelector) -> Value? where CLTypeValueContainer.ValueType == Value {
-        return (option(for: selector) as? CLTypeValueContainer)?.value
-    }
-    
-    public func argumentValue<Value>(for selector: CLSelector) -> Value? where CLTypeValueContainer.ValueType == Value {
-        return (argument(for: selector) as? CLTypeValueContainer)?.value
-    }
+//    public func optionValue<Value>(for selector: CLSelector) -> Value? where CLTypeValueContainer.ValueType == Value {
+//        return (option(for: selector) as? CLTypeValueContainer)?.value
+//    }
+//
+//    public func argumentValue<Value>(for selector: CLSelector) -> Value? where CLTypeValueContainer.ValueType == Value {
+//        return (argument(for: selector) as? CLTypeValueContainer)?.value
+//    }
 }

@@ -36,6 +36,12 @@ open class CLInterface {
     ///
     public static var `default`: CLInterface = CLInterface(name: "Default")
     
+    /// The prefix used for short flags of `Argument`s.
+    public static var prefixShortFlag = "-"
+    
+    /// The prefix used for long flags of `Argument`s.
+    public static var prefixLongFlag = "--"
+    
     
     // ===----------------------------------------------------------------------------------------------------------===
     //
@@ -52,12 +58,16 @@ open class CLInterface {
     open var version: String = "0"
     
 
+    /// The underlying array of commands.
+    open var commands: [CLCommand] = []
+    
+    /// The underlying array of arguments.
+    open var options: [CLConcreteOption] = []
     
     /// The underlying array of arguments.
     open var arguments: [CLConcreteArgument] = []
     
-    /// The underlying array of arguments.
-    open var options: [CLConcreteOption] = []
+
     
     /// Returns an array containing the short and long flags of the arguments.
     internal var allPossibleArgumentNames: [String] {

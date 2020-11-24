@@ -34,3 +34,15 @@ open class CLTypeOption<Value: CLStringInitializable>: CLConcreteOption, CLTypeV
         return .success
     }
 }
+
+/// A command line option which takes an `Int` value.
+public typealias CLNumberOption = CLTypeOption<Int>
+
+/// A command line option which takes an `Double` value.
+public typealias CLDecimalOption = CLTypeOption<Double>
+
+/// A command line option which takes an `String` value.
+public typealias CLStringOption = CLTypeOption<String>
+
+/// A command line option which takes an `Bool` value.
+public typealias CLBoolOption = CLTypeOption<Bool>

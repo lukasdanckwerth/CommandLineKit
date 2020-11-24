@@ -20,3 +20,10 @@ protocol CLTypeValueContainer: CLValueContainer {
     var defaultValue: ValueType? { get set }
     
 }
+
+extension CLTypeValueContainer {
+    
+    var valueType: String {
+        return "\(type(of: ValueType.self))"
+    }
+}
