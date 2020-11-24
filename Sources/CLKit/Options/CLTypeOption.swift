@@ -23,7 +23,7 @@ open class CLTypeOption<Value: CLStringInitializable>: CLConcreteOption, CLTypeV
         return "\(type(of: value))"
     }
     
-    @objc override var containsDefaultValue: Bool { defaultValue != nil }
+    var containsDefaultValue: Bool { defaultValue != nil }
     
     /// Validates the given value in `rawValue` can be parsed to the expected type.  Returns a `.fail(_)` response for an existend value
     /// or when the raw value can't be parsed.

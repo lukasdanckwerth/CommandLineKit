@@ -18,7 +18,7 @@ open class CLEnumOption<EnumType: RawRepresentable>: CLConcreteOption, CLTypeVal
     /// The default value of this option.
     public var defaultValue: EnumType?
     
-    @objc override var containsDefaultValue: Bool { defaultValue != nil }
+    var containsDefaultValue: Bool { defaultValue != nil }
     
     /// Returns the type of the value of this option.
     open var valueType: String {

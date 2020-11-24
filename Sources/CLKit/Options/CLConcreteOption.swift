@@ -20,7 +20,7 @@ open class CLConcreteOption: CLOption, CLValidateable {
     open var name: String
     
     /// Describes the effect of this option.
-    open var helpMessage: String?
+    open var help: String?
     
     /// The collection of required arguments for this option.
     open var requiredArguments: [CLConcreteArgument]?
@@ -31,7 +31,7 @@ open class CLConcreteOption: CLOption, CLValidateable {
     /// - argument description: Some help message describing the option.
     required public init(name: String, helpMessage: String? = nil) {
         self.name = name
-        self.helpMessage = helpMessage
+        self.help = helpMessage
         CLInterface.default.options.append(self)
     }
     
@@ -41,8 +41,4 @@ open class CLConcreteOption: CLOption, CLValidateable {
     public static func ==(lhs: CLConcreteOption, rhs: CLConcreteOption) -> Bool {
         return lhs.name == rhs.name
     }
-}
-
-extension CLConcreteOption {
-    @objc var containsDefaultValue: Bool { false }
 }

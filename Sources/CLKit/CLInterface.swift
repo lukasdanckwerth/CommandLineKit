@@ -138,3 +138,5 @@ open class CLInterface {
         }
     }
 }
+
+public typealias CLSelector = String

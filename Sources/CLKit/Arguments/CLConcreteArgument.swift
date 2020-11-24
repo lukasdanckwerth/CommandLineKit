@@ -41,7 +41,7 @@ open class CLConcreteArgument: CLArgument, CLValidateable {
     ///
     /// - parameter shortFlag:   The short flag of the argument. Nilable
     /// - parameter longFlag:    The long flag of the argument.
-    /// - parameter helpMessage: Some help message describing the option. Nilable
+    /// - parameter help: Some help message describing the option. Nilable
     /// - parameter required:    A Boolean value indicating whether this `Argument` is required. Default is `false`.
     /// - parameter autoAdd:     A Boolean value indicating whether this `Argument` is added to the default `CommandLineInterface` on initialization.
     required public init(shortFlag: String? = nil, longFlag: String, help: String? = nil, required: Bool = false) {

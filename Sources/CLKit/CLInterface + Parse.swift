@@ -77,7 +77,7 @@ extension CLInterface {
                                 throw CLInterfaceError.parseOptionFailure(option: option, message: message)
                             }
                             
-                        } else if option.containsDefaultValue {
+                        } else if (option as? CLDefaultValueContainer)?.containsDefaultValue == true {
                             // empty
                         } else {
                             throw CLInterfaceError.parseOptionFailure(
@@ -151,7 +151,7 @@ extension CLInterface {
                         
                         switch parseValidationResult {
                         case .success:
-                        break // Nothing to do
+                            break // Nothing to do
                         case .fail(let message):
                             throw CLInterfaceError.parseArgumentFailure(argument: argument, message: message)
                         }
@@ -178,11 +178,11 @@ extension CLInterface {
         if let requiredArguments = option?.requiredArguments {
             for requiredArgument in requiredArguments {
                 guard selectedArguments.contains(requiredArgument)
-                    || (requiredArgument as? CLDefaultValueContainer)?.defaulValue != nil else {
-                        throw CLInterfaceError.missingRequiredArgument(
-                            option: option!,
-                            argument: requiredArgument
-                        )
+                        || (requiredArgument as? CLDefaultValueContainer)?.defaulValue != nil else {
+                    throw CLInterfaceError.missingRequiredArgument(
+                        option: option!,
+                        argument: requiredArgument
+                    )
                 }
             }
         }
@@ -218,11 +218,32 @@ extension CLInterface {
     }
     
     /// Parses the arguments from the command line given in `CommandLine.arguments` and dies with an error message.
+    ///
     public func parseOrExit() {
         do { try parse() }
         catch let error { CLInterface.exit(
             withError: error,
             printHelp: CLInterface.default.configuration.contains(.printManualOnFailure))
         }
+    }
+    
+    /// Returns the `CLConcreteOption` for the given selector.
+    ///
+    public func option(for selector: CLSelector) -> CLConcreteOption? {
+        return options.first(where: { $0.name == selector })
+    }
+    
+    /// Returns the `CLConcreteArgument` for the given selector.
+    ///
+    public func argument(for selector: CLSelector) -> CLConcreteArgument? {
+        return arguments.first(where: { $0.longFlag == selector || $0.shortFlag == selector })
+    }
+    
+    public func optionValue<Value>(for selector: CLSelector) -> Value? where CLTypeValueContainer.ValueType == Value {
+        return (option(for: selector) as? CLTypeValueContainer)?.value
+    }
+    
+    public func argumentValue<Value>(for selector: CLSelector) -> Value? where CLTypeValueContainer.ValueType == Value {
+        return (argument(for: selector) as? CLTypeValueContainer)?.value
     }
 }

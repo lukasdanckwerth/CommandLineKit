@@ -46,7 +46,7 @@ extension CLInterface {
                             .replacingOccurrences(of: ">", with: "")
                     }
                     
-                    if let helpMessage = option.helpMessage {
+                    if let helpMessage = option.help {
                         printMessage += "\n\t\t\(helpMessage)"
                     }
                     
