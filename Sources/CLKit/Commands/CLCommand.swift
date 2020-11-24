@@ -26,7 +26,7 @@ open class CLCommand: CLCommandProtocol {
     /// - argument name: The name of the command.
     /// - argument help: Some help message describing the command.
     ///
-    required public init(name: String, help: String? = nil) {
+    public required init(name: String, help: String? = nil) {
         self.name = name
         self.help = help
         CLInterface.default.commands.append(self)

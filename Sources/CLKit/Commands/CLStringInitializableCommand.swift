@@ -13,6 +13,8 @@ open class CLStringInitializableCommand<Value: CLStringInitializable>: CLValueCo
     ///
     public typealias ValueType = Value
     
+    typealias ArgumentType = CLStringInitializableCommand
+    
     /// The command's value.
     open var value: Value!
     
