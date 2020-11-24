@@ -253,10 +253,10 @@ class TestCommands: XCTestCase {
         let resizeCommand = CLStringCommand(name: "resize", help: "Resizes the given image.")
         let stretchHorizontalCommand = CLStringCommand(name: "stretchHorizontal", help: "Stretches the given image horizontally.")
         
-        let widthArgument = NumberArgument(shortFlag: "w", longFlag: "width", help: "The width of the output image")
-        let heightArgument = NumberArgument(shortFlag: "h", longFlag: "height", help: "The height of the output image")
+        let widthArgument = CLNumberArgument(shortFlag: "w", longFlag: "width", help: "The width of the output image")
+        let heightArgument = CLNumberArgument(shortFlag: "h", longFlag: "height", help: "The height of the output image")
         
-        let nameArgument = StringArgument(shortFlag: nil, longFlag: "name", help: "Specify your name.", required: true)
+        let nameArgument = CLStringArgument(shortFlag: nil, longFlag: "name", help: "Specify your name.", required: true)
         
         nameArgument.isRequired = true
         

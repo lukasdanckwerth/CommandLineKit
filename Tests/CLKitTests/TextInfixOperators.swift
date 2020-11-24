@@ -40,15 +40,15 @@ class TextInfixOperators: XCTestCase {
         
         // MARK: - Arguments
         
-        interface + StringArgument(longFlag: "myFlag1")
-        interface + StringArgument(longFlag: "myFlag2")
+        interface + CLStringArgument(longFlag: "myFlag1")
+        interface + CLStringArgument(longFlag: "myFlag2")
         
         XCTAssertFalse(interface.arguments.isEmpty, "Expecting arguments collection to be NOT empty.")
         XCTAssertEqual(interface.arguments.count, 2, "Expecting collection of arguments to contain 2 items.")
         
         interface + [
-            StringArgument(longFlag: "myFlag3"),
-            StringArgument(longFlag: "myFlag4")
+            CLStringArgument(longFlag: "myFlag3"),
+            CLStringArgument(longFlag: "myFlag4")
         ]
         
         XCTAssertEqual(interface.arguments.count, 4, "Expecting collection of arguments to contain 4 items.")

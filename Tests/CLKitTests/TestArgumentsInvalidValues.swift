@@ -32,8 +32,8 @@ class TestArgumentsInvalidValues: XCTestCase {
         ] {
             
             CLInterface.reset()
-            let _ = NumberArgument(shortFlag: "n", longFlag: "number", help: "")
-            let stringArgument = StringArgument(shortFlag: "s", longFlag: "string", help: "")
+            let _ = CLNumberArgument(shortFlag: "n", longFlag: "number", help: "")
+            let stringArgument = CLStringArgument(shortFlag: "s", longFlag: "string", help: "")
             wrapTryCatchForNoValueParsedError(args: args, argumentWithMissingValue: stringArgument)
             
         }
@@ -43,7 +43,7 @@ class TestArgumentsInvalidValues: XCTestCase {
         ] {
             
             CLInterface.reset()
-            let numberArgument = NumberArgument(shortFlag: "n", longFlag: "number", help: "")
+            let numberArgument = CLNumberArgument(shortFlag: "n", longFlag: "number", help: "")
             wrapTryCatchForNoValueParsedError(args: args, argumentWithMissingValue: numberArgument)
             
         }
@@ -53,7 +53,7 @@ class TestArgumentsInvalidValues: XCTestCase {
         ] {
             
             CLInterface.reset()
-            let decimalArgument = StringArgument(shortFlag: "d", longFlag: "decimal")
+            let decimalArgument = CLStringArgument(shortFlag: "d", longFlag: "decimal")
             wrapTryCatchForNoValueParsedError(args: args, argumentWithMissingValue: decimalArgument)
             
         }
@@ -92,7 +92,7 @@ class TestArgumentsInvalidValues: XCTestCase {
         for invalidArgument in ["NoNumericString", "10.0", "-10.0", "true", "false", ""] {
             
             CLInterface.reset()
-            let numberArgument = NumberArgument(shortFlag: "n", longFlag: "number", help: "")
+            let numberArgument = CLNumberArgument(shortFlag: "n", longFlag: "number", help: "")
             
             wrapTryCatchForNoValidValueError(args: ["CLH-Test", "--number", invalidArgument], argumentWithInvalidValue: numberArgument)
         }
@@ -100,7 +100,7 @@ class TestArgumentsInvalidValues: XCTestCase {
         for invalidArgument in ["NoNumericString", "true", "false", ""] {
             
             CLInterface.reset()
-            let decimalArgument = DecimalArgument(shortFlag: "d", longFlag: "decimal")
+            let decimalArgument = CLDecimalArgument(shortFlag: "d", longFlag: "decimal")
             
             wrapTryCatchForNoValidValueError(args: ["CLH-Test", "--decimal", invalidArgument], argumentWithInvalidValue: decimalArgument)
         }

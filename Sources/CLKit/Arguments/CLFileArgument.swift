@@ -8,7 +8,7 @@
 import Foundation
 
 /// Argument which takes a path to a file.
-open class CLFileArgument: URLArgument {
+open class CLFileArgument: CLURLArgument {
     
     /// A Boolean value indicating whether the file must exists.
     var isExsitenceRequired: Bool = false

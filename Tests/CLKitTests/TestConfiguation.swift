@@ -35,7 +35,7 @@ class TestConfiguation: XCTestCase {
             let argument4 = CLConcreteArgument(shortFlag: "d", longFlag: "argumentD")
             let argument5 = CLConcreteArgument(shortFlag: "e", longFlag: "argumentE")
             
-            let intArgument = NumberArgument(shortFlag: "n", longFlag: "number")
+            let intArgument = CLNumberArgument(shortFlag: "n", longFlag: "number")
             
             do {
                 try CLInterface.default.parse(["CMT-Test", argument, "-n", "10"])
@@ -69,15 +69,44 @@ class TestConfiguation: XCTestCase {
     }
     
     func testConfigFailOnMissingCommand() {
+        
         let config: CLConfiguration = .failOnMissingCommand
         let interface = CLInterface(name: "default", configuration: config)
         let rawArguments: [String] = ["default"]
+        
         do {
             try interface.parse(rawArguments)
         } catch CLInterfaceError.noCommandSelected {
             XCTAssert(true)
         } catch {
             XCTFail("Parsing should throw an `.noCommandSelected` error.")
+        }
+        
+        let interface2 = CLInterface(name: "default", configuration: [])
+        
+        do {
+            try interface2.parse(["default"])
+        } catch CLInterfaceError.noCommandSelected {
+            XCTAssert(true)
+        } catch {
+            XCTFail("Parsing should throw an `.noCommandSelected` error.")
+        }
+    }
+    
+    func testInterfaceWithoutCommand() throws {
+        
+        let interface = CLInterface(name: "default", configuration: [])
+        
+        let argument = CLConcreteArgument(longFlag: "argument")
+        let stringArgument = CLStringArgument(longFlag: "stringArgument")
+        
+        interface + argument
+        interface + stringArgument
+        
+        do {
+            try interface.parse(["default", "--argument", "--stringArgument", "value1"])
+        } catch {
+            XCTFail(error.localizedDescription)
         }
     }
     
@@ -96,7 +125,6 @@ class TestConfiguation: XCTestCase {
                       "Collection of unparsedArguments should contain \"anUnknownArgument\".")
         XCTAssertTrue(interface.unparsedArguments.contains("anotherUnknownArgument"),
                       "Collection of unparsedArguments should contain \"anotherUnknownArgument\".")
-        
         
         let config2: CLConfiguration = []
         let interface2 = CLInterface(name: "default", configuration: config2)

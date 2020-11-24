@@ -8,13 +8,13 @@
 import Foundation
 
 /// Typealias for arguments whith a `String` value.
-public typealias StringArgument = CLStringInitializableArgument<String>
+public typealias CLStringArgument = CLStringInitializableArgument<String>
 
 /// Typealias for arguments whith an `Int` value.
-public typealias NumberArgument = CLStringInitializableArgument<Int>
+public typealias CLNumberArgument = CLStringInitializableArgument<Int>
 
 /// Typealias for arguments whith a `Double` value.
-public typealias DecimalArgument = CLStringInitializableArgument<Double>
+public typealias CLDecimalArgument = CLStringInitializableArgument<Double>
 
 /// Typealias for arguments whith a `URL` value.
-public typealias URLArgument = CLStringInitializableArgument<URL>
+public typealias CLURLArgument = CLStringInitializableArgument<URL>

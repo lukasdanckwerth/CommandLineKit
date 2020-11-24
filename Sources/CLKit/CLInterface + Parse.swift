@@ -27,10 +27,13 @@ extension CLInterface {
         
         self.rawArguments = rawArguments
         
-        
-        
         // guard the existance of at least one more argument than the programm path.
-        guard rawArguments.count > 1 else { return }
+        if rawArguments.count <= 1 {
+            if configuration.contains(.failOnMissingCommand) {
+                throw CLInterfaceError.noCommandSelected
+            }
+            return
+        }
         
         // clear any old selection
         command = nil
@@ -43,7 +46,6 @@ extension CLInterface {
         let commandNameCandidate = rawArguments[index]
         
         if let command = self.command(for: commandNameCandidate) {
-            
             index += 1
             
             // Guard there is not command already set. This actually should never happen.
@@ -204,7 +206,7 @@ extension CLInterface {
         do { try parse() }
         catch let error { CLInterface.exit(
             withError: error,
-            printManual: CLInterface.default.configuration.contains(.printManualOnFailure))
+            printManual: configuration.contains(.printManualOnFailure))
         }
     }
     
@@ -219,14 +221,6 @@ extension CLInterface {
     public func argument(for selector: String) -> CLConcreteArgument? {
         return arguments.first(where: { $0.longFlag == selector || $0.shortFlag == selector })
     }
-    
-    //    public func commandValue<Value>(for selector: CLSelector) -> Value? where CLTypeValueContainer.ValueType == Value {
-    //        return (command(for: selector) as? CLTypeValueContainer)?.value
-    //    }
-    //
-    //    public func argumentValue<Value>(for selector: CLSelector) -> Value? where CLTypeValueContainer.ValueType == Value {
-    //        return (argument(for: selector) as? CLTypeValueContainer)?.value
-    //    }
 }
 
 internal extension Array {

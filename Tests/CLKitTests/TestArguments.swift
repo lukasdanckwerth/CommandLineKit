@@ -22,12 +22,12 @@ class TestArguments: XCTestCase {
         
         CLInterface.reset()
         
-        let numberArgumentDefault0 = NumberArgument(shortFlag: "n1", longFlag: "number1", defaultValue: 0)
-        let numberArgumentDefault1 = NumberArgument(shortFlag: "n2", longFlag: "number2", defaultValue: 1)
-        let numberArgumentDefaultMinus1 = NumberArgument(shortFlag: "n3", longFlag: "number3", defaultValue: -1)
-        let numberArgument = NumberArgument(shortFlag: "n4", longFlag: "number4")
+        let numberArgumentDefault0 = CLNumberArgument(shortFlag: "n1", longFlag: "number1", defaultValue: 0)
+        let numberArgumentDefault1 = CLNumberArgument(shortFlag: "n2", longFlag: "number2", defaultValue: 1)
+        let numberArgumentDefaultMinus1 = CLNumberArgument(shortFlag: "n3", longFlag: "number3", defaultValue: -1)
+        let numberArgument = CLNumberArgument(shortFlag: "n4", longFlag: "number4")
         
-        let stringArgumentDefaultCow = StringArgument(longFlag: "animal", defaultValue: "Cow")
+        let stringArgumentDefaultCow = CLStringArgument(longFlag: "animal", defaultValue: "Cow")
         
         do {
             try CLInterface.parse(["CLH-Test", "-n1", "2", "-n4", "100", "--animal", "Pig"])
